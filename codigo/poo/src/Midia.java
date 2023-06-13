@@ -2,7 +2,7 @@
 import java.util.ArrayList;
 import java.time.LocalDate;
 
-public class Midia {
+public class Midia implements Comparable<Midia> {
 	protected final String idMidia;
 	protected final String nome;
 	protected ArrayList<String> idioma = new ArrayList<>();
@@ -11,8 +11,9 @@ public class Midia {
 	protected int quantidadeDeViwers;
 	protected double avaliacao;
 	protected ArrayList<Double> notas = new ArrayList<>();
-	
-	public Midia(String idMidia, String nome, LocalDate dataLancamento, ArrayList<String> idioma, ArrayList<String> genero) {
+
+	public Midia(String idMidia, String nome, LocalDate dataLancamento, ArrayList<String> idioma,
+			ArrayList<String> genero) {
 		this.idMidia = idMidia;
 		this.nome = nome;
 		this.dataLancamento = dataLancamento;
@@ -20,25 +21,25 @@ public class Midia {
 		this.idioma = idioma;
 		this.genero = genero;
 	}
-	
+
 	public void adicionarGenero(String genero) {
 		this.genero.add(genero);
 	}
-	
+
 	public void adicionarIdioma(String idioma) {
 		this.idioma.add(idioma);
 	}
-	
+
 	public void removerGenero(String genero) {
 		this.genero.remove(genero);
 	}
-	
+
 	public void removerIdioma(String idioma) {
 		this.idioma.remove(idioma);
 	}
-	
+
 	public void assistiu() {
-		quantidadeDeViwers ++;
+		quantidadeDeViwers++;
 	}
 
 	public void availiar(double nota) {
@@ -47,11 +48,16 @@ public class Midia {
 		for (double not : notas) {
 			x += not;
 		}
-		this.avaliacao = x/notas.size();
+		this.avaliacao = x / notas.size();
 	}
 	
-	//Getters and Setters
-	
+	@Override
+	public int compareTo(Midia m) {
+		return this.nome.compareTo(m.nome);
+	}
+
+	// Getters and Setters
+
 	public ArrayList<String> getIdioma() {
 		return idioma;
 	}
@@ -67,9 +73,13 @@ public class Midia {
 	public LocalDate getDataLancamento() {
 		return dataLancamento;
 	}
-	
+
 	public String getIdMidia() {
 		return idMidia;
+	}
+
+	public double getAvaliacao() {
+		return avaliacao;
 	}
 	
 }

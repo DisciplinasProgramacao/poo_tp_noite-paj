@@ -1,7 +1,9 @@
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class Cliente {
+public class Cliente implements Comparable<Cliente>{
 
 	private String nome;
 	private String usuario;
@@ -35,7 +37,7 @@ public class Cliente {
 	 * @param opcao, opcao para escolher a lista desejada (F para assistir futuramente ou A para já assistidas)
 	 * @param midia, objeto da classe Midia, o filme ou a serie a ser adicionada
 	 */
-	public void adicionar(String opcao, Midia midia) {
+	protected void adicionar(String opcao, Midia midia) {
 		switch (opcao.toUpperCase()) {
 		case "F":
 			listaAssistir.add(midia);
@@ -59,31 +61,23 @@ public class Cliente {
 	 * 
 	 * @return ArrayList<Midia>, retorna uma ArrayList contendo às midias que contem no nome a string buscada pelo usuario
 	 */
-	public ArrayList<Midia> buscarLista(String busca, String opcao) {
-		ArrayList<Midia> resultados = new ArrayList<>();
+	public List<Midia> buscarLista(String busca, String opcao) {
+		List<Midia> resultados = new ArrayList<>();
 		switch (opcao) {
 		case "assistidos":
-			for (Midia midia : listaAssistidos) {
-				if (midia.getGenero().contains(busca) || midia.getIdioma().contains(busca)
-						|| midia.getNome().contains(busca)) {
-					resultados.add(midia);
-				}
-				if(busca == null) {
-					return listaAssistidos;
-				}
-			}
+			resultados = listaAssistidos.stream().filter(m -> m.nome.contains(busca)).collect(Collectors.toList());
 			return resultados;
 			
 		case "assistir":
-			for (Midia midia : listaAssistir) {
-				if (midia.getGenero().contains(busca) || midia.getIdioma().contains(busca)
-						|| midia.getNome().contains(busca)) {
-					resultados.add(midia);
-				}
-			}
+			resultados = listaAssistir.stream().filter(m -> m.nome.contains(busca)).collect(Collectors.toList());
 			return resultados;
 		}
 		return null;
+	}
+	
+	@Override
+	public int compareTo(Cliente o) {
+		return this.nome.compareTo(o.nome);
 	}
 	
 	// Getters and Setters
@@ -120,4 +114,5 @@ public class Cliente {
 	public ArrayList<Midia> getListaAvaliados() {
 		return listaMidiasAvaliadas;
 	}
+
 }

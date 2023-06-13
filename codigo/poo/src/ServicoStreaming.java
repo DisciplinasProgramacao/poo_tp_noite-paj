@@ -165,18 +165,18 @@ public class ServicoStreaming {
 				linha2 = lerarq2.readLine();
 			}
 
-			String linha3 = lerarq3.readLine();
-			int sla = 0;
+			/*String linha3 = lerarq3.readLine();
 			while (linha3 != null) {
 				String[] linhaPartida3 = linha3.split(";");
 
 				Midia midia = listaMidia.stream().filter(m -> m.getIdMidia().equals(linhaPartida3[2])).findFirst().orElse(null);
 				Cliente cliente = listaCliente.stream().filter(c -> c.getUsuario().equals(linhaPartida3[0])).findFirst().orElse(null);
 				
+				if(cliente != null && midia != null)
 				cliente.adicionar(linhaPartida3[1], midia);
 
 				linha3 = lerarq3.readLine();
-			}
+			}*/
 
 			String linha4 = lerarq4.readLine();
 			while (linha != null) {
@@ -203,10 +203,7 @@ public class ServicoStreaming {
 			arq3.close();
 			arq4.close();
 
-		} catch (
-
-		IOException e) {
-			// TODO Auto-generated catch block
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -224,13 +221,29 @@ public class ServicoStreaming {
 	 * 
 	 * @param nota,  double contendo a nota que deseja ser dada à midia
 	 * @param busca, String contendo a midia que deseja ser avaliada
+	 * @throws MidiaNaoEncontradaException 
 	 */
-	public void avaliar(double nota, String busca) {
-		List<Midia> midiaAvaliada = buscarGeral(busca, "geral");
-		List<Midia> verificacao = clienteLogado.getListaAvaliados();
-		if (!verificacao.contains(midiaAvaliada.get(0))) {
-			midiaAvaliada.get(0).availiar(nota);
+	public void avaliar(double nota, String busca) throws MidiaNaoEncontradaException {
+		Midia midiaAvaliada = buscarGeral(busca, "geral").get(0);
+		ArrayList<Midia> verificacao = clienteLogado.getListaAvaliados();
+		if(nota > 5 || nota < 1) {
+			if (!verificacao.contains(midiaAvaliada)) {
+				midiaAvaliada.availiar(nota);
+			}
+			else {
+				throw new MidiaNaoEncontradaException("Midia não econtrada! Favor inserir uma midia válida");
+			}
+			
+		} else {
+			throw new IllegalArgumentException("Nota inválida! Por favor escolha uma entre 1 e 5!");
 		}
+		
 	}
 
+	public void adicionar(String opcao, String mi) throws MidiaNaoEncontradaException {
+		Midia midia = listaMidia.stream().filter(m -> m.getNome().toLowerCase().equals(mi.toLowerCase())).findFirst().orElse(null);
+		if(midia != null) clienteLogado.adicionar(opcao, midia);
+		else throw new MidiaNaoEncontradaException("Não foi encontrado nenhum filme ou série com esse nome.");
+	}
+	
 }
