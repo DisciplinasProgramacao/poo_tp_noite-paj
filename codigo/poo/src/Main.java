@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -30,23 +31,15 @@ public class Main {
 				
 				opc.toLowerCase();
 				
-				ArrayList<Midia> midias = servico.buscarGeral(midia, opc);
-				if(!midias.isEmpty()) {
-					for (Midia nomes : midias) {
-						System.out.println(nomes.getNome());
-					}
-				}
-				else {
-					System.out.println("Nao foi encontrado essa midia!");
-				}
+				List<Midia> midias = servico.buscarGeral(midia, opc);
+				if(midias != null) System.out.println(midias.toString());
+				else System.out.println("Não foi encontrado nenhuma midia.");
 				break;
 				
 			case 2:
 				ent.nextLine();
-				ArrayList<Midia> midias1 = servico.buscarGeral(null,"assistidas");
-				for(Midia nomes : midias1) {
-					System.out.println(nomes.getNome());
-				}
+				List<Midia> midias1 = servico.buscarGeral(null,"assistidas");
+				System.out.println(midias1.toString());
 				System.out.println("Qual midia assistida deseja avaliar?");
 				String busca = ent.nextLine();
 				System.out.println("Qual nota deseja dar?");
@@ -68,7 +61,12 @@ public class Main {
 				char op = ent.next().charAt(0);
 				Character.toUpperCase(op);
 				if(op == 'S') {
-					servico.removerCliente();
+					System.out.println("Digite sua senha:");
+					try {
+						servico.removerCliente(ent.nextLine());
+					} catch (UsuarioSenhaErradosException e) {
+						System.out.println(e.getMessage());
+					}
 					System.out.println("Conta removida");
 					opcao = 0;
 				}else {
@@ -106,12 +104,13 @@ public class Main {
 				ent.nextLine();
 				System.out.println("Digite a senha:");
 				senha = ent.nextLine();
-				if (servico.logar(usuario, senha)) {
+				try {
+					servico.logar(usuario, senha);
 					System.out.println("Usuário logado com sucesso!");
 					logado(servico, ent);
-				} else
-					System.out.println("Usuario ou senha errado!");
-				break;
+				} catch (UsuarioSenhaErradosException e) {
+					System.out.println(e.getMessage());
+				}
 
 			case 2:
 				ent.nextLine();

@@ -1,16 +1,20 @@
 
 import java.util.ArrayList;
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class ServicoStreaming {
 
-	private ArrayList<Midia> listaMidia = new ArrayList<>();
-	private ArrayList<Cliente> listaCliente = new ArrayList<>();
+	private SortedSet<Midia> listaMidia = new TreeSet<>();
+	private SortedSet<Cliente> listaCliente = new TreeSet<Cliente>();
 	private ArrayList<String> idioma = new ArrayList<>();
 	private ArrayList<String> genero = new ArrayList<>();
 	private Cliente clienteLogado;
@@ -28,22 +32,22 @@ public class ServicoStreaming {
 
 	/**
 	 * Metodo para realizar o login do usuario no servico. Ele permanecerá logado
-	 * até que deslogue.
+	 * até que deslogue. Caso tenha algum erro, será lançado uma Exceção na tela.
 	 * 
 	 * @param usuario Recebe uma string contendo o nome de usuario
 	 * @param senha   Recebe uma string contendo a senha do usuario
-	 * @return True = Usuario e senha corretos, False = Usuario ou senha incorretos
+	 * @throws UsuarioSenhaErradosException
 	 */
-	public boolean logar(String usuario, String senha) {
-		for (Cliente cliente : listaCliente) {
-			if (cliente.getUsuario().equals(usuario)) {
-				if (cliente.logar(senha)) {
-					clienteLogado = cliente;
-					return true;
-				}
-			}
-		}
-		return false;
+	public void logar(String usuario, String senha) throws UsuarioSenhaErradosException {
+		Cliente cliente = listaCliente.stream().filter(c -> c.getUsuario().equals(usuario)).findFirst().orElse(null);
+		if (cliente == null)
+			throw new UsuarioSenhaErradosException("Usuário não encontrado.");
+
+		else if (cliente.logar(senha))
+			clienteLogado = (Cliente) cliente;
+
+		else
+			throw new UsuarioSenhaErradosException("Senha inválida.");
 	}
 
 	/**
@@ -55,19 +59,24 @@ public class ServicoStreaming {
 	 * @param senha,   string que carrega a senha escolhida pelo cliente
 	 */
 	public void cadastrar(String nome, String usuario, String senha) {
-		Cliente cliente = new Cliente(nome, usuario, senha);
-		listaCliente.add(cliente);
+		listaCliente.add(new Cliente(nome, usuario, senha));
 	}
 
 	/**
-	 * Metodo usado para remover um cliente do sistema, apos informar o usuario e a
-	 * senha, será realizado a verificacao se a senha e o usuario informados
-	 * coincidem. Se for verdadeiro, removera o cliente da lista, se não, não
-	 * removerá da lista
+	 * Metodo usado para remover um cliente do sistema, apos informar a senha, será
+	 * realizado a verificacao se a senha informada coincide. Se for verdadeiro,
+	 * removera o cliente da lista, se não, não removerá da lista e lançará uma
+	 * exceção
+	 * 
+	 * @throws UsuarioSenhaErradosException
 	 * 
 	 */
-	public void removerCliente() {
-		listaCliente.remove(clienteLogado);
+	public void removerCliente(String senha) throws UsuarioSenhaErradosException {
+		if (clienteLogado.logar(senha))
+			listaCliente.remove(clienteLogado);
+
+		else
+			throw new UsuarioSenhaErradosException("Senha inválida.");
 	}
 
 	/**
@@ -85,16 +94,12 @@ public class ServicoStreaming {
 	 *         a string buscada pelo usuário. Retornara nulo caso não seja
 	 *         encontrado nenhuma midia
 	 */
-	public ArrayList<Midia> buscarGeral(String busca, String opcao) {
-		ArrayList<Midia> resultados = new ArrayList<>();
+	public List<Midia> buscarGeral(String busca, String opcao) {
+		List<Midia> resultados = new ArrayList<>();
 		opcao = opcao.toLowerCase();
 		switch (opcao) {
 		case "geral":
-			for (Midia midia : listaMidia) {
-				if (midia.getNome().contains(busca)) {
-					resultados.add(midia);
-				}
-			}
+			resultados = listaMidia.stream().filter(m -> m.nome.contains(busca)).collect(Collectors.toList());
 			return resultados;
 
 		case "assistir":
@@ -161,18 +166,15 @@ public class ServicoStreaming {
 			}
 
 			String linha3 = lerarq3.readLine();
+			int sla = 0;
 			while (linha3 != null) {
 				String[] linhaPartida3 = linha3.split(";");
 
-				for (Midia midia : listaMidia) {
-					if (midia.getIdMidia().equals(linhaPartida3[2])) {
-						for (Cliente cliente : listaCliente) {
-							if (cliente.getUsuario().equals(linhaPartida3[0])) {
-								cliente.adicionar(linhaPartida3[1], midia);
-							}
-						}
-					}
-				}
+				Midia midia = listaMidia.stream().filter(m -> m.getIdMidia().equals(linhaPartida3[2])).findFirst().orElse(null);
+				Cliente cliente = listaCliente.stream().filter(c -> c.getUsuario().equals(linhaPartida3[0])).findFirst().orElse(null);
+				
+				cliente.adicionar(linhaPartida3[1], midia);
+
 				linha3 = lerarq3.readLine();
 			}
 
@@ -217,15 +219,16 @@ public class ServicoStreaming {
 	}
 
 	/**
-	 * O metodo avaliar é utilizado para dar uma nota para uma midia. Caso o cliente já tenha avaliado essa midia antes, não será feito a nova avaliacao.
+	 * O metodo avaliar é utilizado para dar uma nota para uma midia. Caso o cliente
+	 * já tenha avaliado essa midia antes, não será feito a nova avaliacao.
 	 * 
-	 * @param nota, double contendo a nota que deseja ser dada à midia
+	 * @param nota,  double contendo a nota que deseja ser dada à midia
 	 * @param busca, String contendo a midia que deseja ser avaliada
 	 */
 	public void avaliar(double nota, String busca) {
-		ArrayList<Midia> midiaAvaliada = buscarGeral(busca, "geral");
-		ArrayList<Midia> verificacao = clienteLogado.getListaAvaliados();
-		if(!verificacao.contains(midiaAvaliada.get(0))){
+		List<Midia> midiaAvaliada = buscarGeral(busca, "geral");
+		List<Midia> verificacao = clienteLogado.getListaAvaliados();
+		if (!verificacao.contains(midiaAvaliada.get(0))) {
 			midiaAvaliada.get(0).availiar(nota);
 		}
 	}
