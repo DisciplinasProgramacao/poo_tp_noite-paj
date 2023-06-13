@@ -37,6 +37,7 @@ Atualizado em 30/05/2023
 | 6. Quais são as 10 mídias com a melhor média de avaliações e que tenham sido vistas pelo menos 100 vezes, apresentadas em ordem decrescente  | Pedro  ➕➖ | 
 | 7. Quais são as 10 mídias com mais visualizações, em ordem decrescente  | Ana  ➕➖ | 
 | 8. Estes mesmos dois últimos relatórios, porém com as mídias separadas por gênero  | Julia  ➕➖ | 
+| 9. Trocar ArrayList para TreeMap  | Pedro  ➕➖ | 
 
 
 
