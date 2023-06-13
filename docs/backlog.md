@@ -23,6 +23,7 @@ Atualizado em 30/05/2023
 | 15. Atualização do diagrama quarta iteração   | Ana  ✔️      |
 | 15. Criação do menu   | Julia  ✔️      |
 | 16. Troca das ArrayList de Midia e Cliente para TreeSet   | Pedro  ✔️      |
+| 17. Alterações do Menu e adição de Exceptions   | Julia  ✔️      |
 
 ----
 
