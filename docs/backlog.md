@@ -25,6 +25,7 @@ Atualizado em 30/05/2023
 | 16. Troca das ArrayList de Midia e Cliente para TreeSet   | Pedro  ✔️      |
 | 17. Alterações do Menu e adição de Exceptions   | Julia  ✔️      |
 | 18. Interface de comentario   | Ana  ✔️    |
+| 19. Adicioanr os generos de midia      | Pedro    ✔️   |
 
 ----
 
@@ -33,14 +34,12 @@ Atualizado em 30/05/2023
 | Tarefa      | Responsável |
 | ----------- | ----------- |
 
-| 2. Adicioanr os generos de midia      | Pedro ➕➖     |
-| 3. Qual cliente assistiu mais mídias, e quantas mídias  | Julia  ➕➖ | 
-| 4. Qual cliente tem mais avaliações, e quantas avaliações  | Julia  ➕➖ | 
-| 5. Qual a porcentagem dos clientes com pelo menos 15 avaliações;  | Pedro  ➕➖ | 
-| 6. Quais são as 10 mídias com a melhor média de avaliações e que tenham sido vistas pelo menos 100 vezes, apresentadas em ordem decrescente  | Pedro  ➕➖ | 
-| 7. Quais são as 10 mídias com mais visualizações, em ordem decrescente  | Ana  ➕➖ | 
-| 8. Estes mesmos dois últimos relatórios, porém com as mídias separadas por gênero  | Julia  ➕➖ | 
-| 9. Trocar ArrayList para TreeMap  | Pedro  ➕➖ | 
+| 1. Qual cliente assistiu mais mídias, e quantas mídias  | Julia  ➕➖ | 
+| 2. Qual cliente tem mais avaliações, e quantas avaliações  | Julia  ➕➖ | 
+| 3. Qual a porcentagem dos clientes com pelo menos 15 avaliações;  | Pedro  ➕➖ | 
+| 4. Quais são as 10 mídias com a melhor média de avaliações e que tenham sido vistas pelo menos 100 vezes, apresentadas em ordem decrescente  | Pedro  ➕➖ | 
+| 5. Quais são as 10 mídias com mais visualizações, em ordem decrescente  | Ana  ➕➖ | 
+| 6. Estes mesmos dois últimos relatórios, porém com as mídias separadas por gênero  | Julia  ➕➖ | 
 
 
 
