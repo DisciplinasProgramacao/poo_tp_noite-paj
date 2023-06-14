@@ -24,6 +24,7 @@ Atualizado em 30/05/2023
 | 15. Criação do menu   | Julia  ✔️      |
 | 16. Troca das ArrayList de Midia e Cliente para TreeSet   | Pedro  ✔️      |
 | 17. Alterações do Menu e adição de Exceptions   | Julia  ✔️      |
+| 18. Interface de comentario   | Ana  ✔️    |
 
 ----
 
@@ -31,7 +32,7 @@ Atualizado em 30/05/2023
 
 | Tarefa      | Responsável |
 | ----------- | ----------- |
-| 1. Interface de comentario   | Ana  ➕    |
+
 | 2. Adicioanr os generos de midia      | Pedro ➕➖     |
 | 3. Qual cliente assistiu mais mídias, e quantas mídias  | Julia  ➕➖ | 
 | 4. Qual cliente tem mais avaliações, e quantas avaliações  | Julia  ➕➖ | 
