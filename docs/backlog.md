@@ -33,7 +33,6 @@ Atualizado em 30/05/2023
 
 | Tarefa      | Responsável |
 | ----------- | ----------- |
-
 | 1. Qual cliente assistiu mais mídias, e quantas mídias  | Julia  ➕➖ | 
 | 2. Qual cliente tem mais avaliações, e quantas avaliações  | Julia  ➕➖ | 
 | 3. Qual a porcentagem dos clientes com pelo menos 15 avaliações;  | Pedro  ➕➖ | 
