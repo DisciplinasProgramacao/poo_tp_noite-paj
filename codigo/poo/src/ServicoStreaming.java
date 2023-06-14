@@ -21,14 +21,18 @@ public class ServicoStreaming {
 	private Cliente clienteLogado;
 
 	public ServicoStreaming() {
-		idioma.add("portugues");
-		idioma.add("ingles");
-		idioma.add("espanhol");
-		genero.add("terror");
-		genero.add("acao");
-		genero.add("comedia");
-		genero.add("romance");
-		genero.add("ficcao cientifica");
+		idioma.add("Portugues");
+		idioma.add("Ingles");
+		idioma.add("Espanhol");
+		genero.add("Acao");
+		genero.add("Anime");
+		genero.add("Aventura");
+		genero.add("Comedia");
+		genero.add("Documentario");
+		genero.add("Drama");
+		genero.add("Policial");
+		genero.add("Romance");
+		genero.add("Suspense");
 	}
 
 	/**
