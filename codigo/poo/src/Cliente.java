@@ -1,16 +1,18 @@
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-public class Cliente implements Comparable<Cliente>{
+public class Cliente implements Comparable<Cliente>,IComentar{
 
 	private String nome;
 	private String usuario;
 	private String senha;
 	private ArrayList<Midia> listaAssistidos = new ArrayList<>();
 	private ArrayList<Midia> listaAssistir = new ArrayList<>();
-	private ArrayList<Midia> listaMidiasAvaliadas = new ArrayList<>();
 
 	public Cliente(String nome, String usuario, String senha) {
 		this.nome = nome;
@@ -64,12 +66,13 @@ public class Cliente implements Comparable<Cliente>{
 	public List<Midia> buscarLista(String busca, String opcao) {
 		List<Midia> resultados = new ArrayList<>();
 		switch (opcao) {
-		case "assistidos":
-			resultados = listaAssistidos.stream().filter(m -> m.nome.contains(busca)).collect(Collectors.toList());
+		case "assistidas":
+			if(busca != null) resultados = listaAssistidos.stream().filter(m -> m.nome.contains(busca)).collect(Collectors.toList());
+			else return (List<Midia>) listaAssistidos.clone();
 			return resultados;
 			
 		case "assistir":
-			resultados = listaAssistir.stream().filter(m -> m.nome.contains(busca)).collect(Collectors.toList());
+			 resultados = listaAssistir.stream().filter(m -> m.nome.contains(busca)).collect(Collectors.toList());
 			return resultados;
 		}
 		return null;
@@ -108,11 +111,16 @@ public class Cliente implements Comparable<Cliente>{
 	}
 	
 	public void setListaAvaliados(Midia midia) {
-		this.listaMidiasAvaliadas.add(midia);
+		LocalDate data = LocalDate.now();
+		IComentar.listaMidiasAvaliadas.put(data,midia);
 	}
 	
-	public ArrayList<Midia> getListaAvaliados() {
+	public SortedMap<LocalDate, Midia> getListaAvaliados() {
 		return listaMidiasAvaliadas;
+	}
+	
+	public void comentar(String msg, Midia midia) {
+		IComentar.comentar(msg, midia,this.usuario);
 	}
 
 }

@@ -1,13 +1,14 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
 
 	public static void logado(ServicoStreaming servico, Scanner ent) {
 		int opcao = 1;
-		while (opcao != 3 || opcao != 4) {
+		while (opcao != 0) {
 			System.out.println("1 - Buscar Midia");
 			System.out.println("2 - Avaliar Midia Assistida");
 			System.out.println("3 - Comentar em uma Midia Assistida");
@@ -34,11 +35,15 @@ public class Main {
 
 				List<Midia> midias = servico.buscarGeral(midia, opc);
 				if (midias != null)
-					midias.stream()
-							.map(m -> " " + m.getNome() + "\n Avaliação:" + String.valueOf(m.getAvaliacao())
-									+ "\n Data de Lançamento:" + m.getDataLancamento() + "\n Idiomas: " + m.getIdioma()
-									+ "\n Generos:" + m.getGenero() + "\n")
-							.forEach(System.out::println);
+					for (Midia m : midias) {
+						System.out.println("Nome: " + m.getNome());
+						System.out.println("Data de Lancamento: " + m.getDataLancamento());
+						System.out.println("Idiomas: " + m.getIdioma().toString());
+						System.out.println("Generos: " + m.getGenero().toString());
+						System.out.println("Avaliacao: " + m.getAvaliacao());
+						System.out.println("Comentarios: ");
+						m.getListaComentarios().forEach((key, value) -> System.out.println(key + " " + value));
+					}
 				else
 					System.out.println("Não foi encontrado nenhuma midia.");
 				break;
@@ -46,7 +51,7 @@ public class Main {
 			case 2:
 				ent.nextLine();
 				List<Midia> midias1 = servico.buscarGeral(null, "assistidas");
-				if (midias1 != null) {
+				if (!midias1.isEmpty()) {
 					midias1.stream()
 							.map(m -> " " + m.getNome() + "\n Avaliação:" + String.valueOf(m.getAvaliacao())
 									+ "\n Data de Lançamento:" + m.getDataLancamento() + "\n Idiomas: " + m.getIdioma()
@@ -72,8 +77,22 @@ public class Main {
 				break;
 
 			case 3:
-				
-				break;
+				ent.nextLine();
+				List<Midia> midias2 = servico.buscarGeral(null, "assistidas");
+				if (!midias2.isEmpty()) {
+					midias2.stream()
+							.map(m -> " " + m.getNome() + "\n Avaliação:" + String.valueOf(m.getAvaliacao())
+									+ "\n Data de Lançamento:" + m.getDataLancamento() + "\n Idiomas: " + m.getIdioma()
+									+ "\n Generos:" + m.getGenero() + "\n")
+							.forEach(System.out::println);
+
+					System.out.println("Qual midia assistida deseja Comentar?");
+					String busca = ent.nextLine();
+					System.out.println("Qual comentário deseja fazer?");
+					String comentario = ent.nextLine();
+					servico.comentar(comentario, busca);
+				}
+					break;
 
 			case 4:
 				ent.nextLine();

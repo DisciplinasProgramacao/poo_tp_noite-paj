@@ -1,5 +1,7 @@
 
 import java.util.ArrayList;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.time.LocalDate;
 
 public class Midia implements Comparable<Midia> {
@@ -11,6 +13,7 @@ public class Midia implements Comparable<Midia> {
 	protected int quantidadeDeViwers;
 	protected double avaliacao;
 	protected ArrayList<Double> notas = new ArrayList<>();
+	protected SortedMap<String,String> listaComentarios = new TreeMap<>();
 
 	public Midia(String idMidia, String nome, LocalDate dataLancamento, ArrayList<String> idioma,
 			ArrayList<String> genero) {
@@ -51,6 +54,10 @@ public class Midia implements Comparable<Midia> {
 		this.avaliacao = x / notas.size();
 	}
 	
+	protected void comentar(String usuario, String comentario) {
+		listaComentarios.put(usuario, comentario);
+	}
+	
 	@Override
 	public int compareTo(Midia m) {
 		return this.nome.compareTo(m.nome);
@@ -81,5 +88,9 @@ public class Midia implements Comparable<Midia> {
 	public double getAvaliacao() {
 		return avaliacao;
 	}
-	
+
+	protected SortedMap<String, String> getListaComentarios() {
+		return listaComentarios;
+	}
+
 }

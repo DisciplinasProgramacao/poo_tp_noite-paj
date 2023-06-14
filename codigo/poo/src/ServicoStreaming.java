@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -96,6 +97,7 @@ public class ServicoStreaming {
 	 */
 	public List<Midia> buscarGeral(String busca, String opcao) {
 		List<Midia> resultados = new ArrayList<>();
+		resultados = null;
 		opcao = opcao.toLowerCase();
 		switch (opcao) {
 		case "geral":
@@ -103,11 +105,12 @@ public class ServicoStreaming {
 			return resultados;
 
 		case "assistir":
-			return clienteLogado.buscarLista(busca, opcao);
+			resultados = clienteLogado.buscarLista(busca, opcao);
+			return resultados;
 
-		case "assistidos":
-			return clienteLogado.buscarLista(busca, opcao);
-
+		case "assistidas":
+			resultados = clienteLogado.buscarLista(busca, opcao);
+			return resultados;
 		}
 		return null;
 	}
@@ -225,13 +228,14 @@ public class ServicoStreaming {
 	 */
 	public void avaliar(double nota, String busca) throws MidiaNaoEncontradaException {
 		Midia midiaAvaliada = buscarGeral(busca, "geral").get(0);
-		ArrayList<Midia> verificacao = clienteLogado.getListaAvaliados();
-		if(nota > 5 || nota < 1) {
+		Collection<Midia> verificacao = clienteLogado.getListaAvaliados().values();
+		if(nota <= 5 && nota >= 1) {
 			if (!verificacao.contains(midiaAvaliada)) {
 				midiaAvaliada.availiar(nota);
+				clienteLogado.setListaAvaliados(midiaAvaliada);
 			}
 			else {
-				throw new MidiaNaoEncontradaException("Midia não econtrada! Favor inserir uma midia válida");
+				throw new MidiaNaoEncontradaException("Midia já avaliada! Favor inserir outra midia!");
 			}
 			
 		} else {
@@ -244,6 +248,11 @@ public class ServicoStreaming {
 		Midia midia = listaMidia.stream().filter(m -> m.getNome().toLowerCase().equals(mi.toLowerCase())).findFirst().orElse(null);
 		if(midia != null) clienteLogado.adicionar(opcao, midia);
 		else throw new MidiaNaoEncontradaException("Não foi encontrado nenhum filme ou série com esse nome.");
+	}
+	
+	public void comentar(String msg, String busca) {
+		Midia midiaAvaliada = buscarGeral(busca, "geral").get(0);
+		clienteLogado.comentar(msg, midiaAvaliada);
 	}
 	
 }
