@@ -1,8 +1,9 @@
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -13,8 +14,9 @@ public class Main {
 			System.out.println("2 - Avaliar Midia Assistida");
 			System.out.println("3 - Comentar em uma Midia Assistida");
 			System.out.println("4 - Adicionar Midia a lista");
-			System.out.println("5 - Deslogar");
-			System.out.println("6 - Remover Cliente");
+			System.out.println("5 - Relátorios do sistema");
+			System.out.println("6 - Deslogar");
+			System.out.println("7 - Remover Cliente");
 
 			opcao = ent.nextInt();
 
@@ -92,7 +94,7 @@ public class Main {
 					String comentario = ent.nextLine();
 					servico.comentar(comentario, busca);
 				}
-					break;
+				break;
 
 			case 4:
 				ent.nextLine();
@@ -112,12 +114,16 @@ public class Main {
 				break;
 
 			case 5:
+				relatoriosSistema(servico, ent);
+				break;
+
+			case 6:
 				servico.deslogar();
 				System.out.println("Cliente deslogado!");
 				opcao = 0;
 				break;
 
-			case 6:
+			case 7:
 				System.out.println("Tem certeza que deseja remover a conta? S/N");
 				char op = ent.next().charAt(0);
 				Character.toUpperCase(op);
@@ -137,6 +143,78 @@ public class Main {
 			}
 		}
 
+	}
+
+	public static void relatoriosSistema(ServicoStreaming servico, Scanner ent) {
+		int quant;
+		int maiorquant = 0;
+		Cliente maior = null;
+		int opcao = 1;
+		while (opcao != 0) {
+			System.out.println("Qual relátorio deseja ver?");
+			System.out.println("1 - Qual cliente assistiu mais midias ");
+			System.out.println("2 - Qual cliente tem mais avaliações");
+			System.out.println("3 - Porcentagem de clientes com pelo menos 15 avaliações");
+			System.out.println("4 - Melhores 10 midias com melhor media de avaliação");
+			opcao = ent.nextInt();
+			switch (opcao) {
+
+			case 1:
+				maiorquant = 0;
+				quant = 0;
+				maior = null;
+				for (Cliente c : servico.getListaCliente()) {
+					quant = c.getListaAssistidos().size();
+					if (quant > maiorquant) {
+						maiorquant = quant;
+						maior = c;
+					}
+				}
+				System.out.println("Cliente com maior quantidade de midias assistidas é: " + maior.getNome() + "! \nAssistiu um total de: " + maior.getListaAssistidos().size() + " Midias!");
+				break;
+
+			case 2:
+				maiorquant = 0;
+				quant = 0;
+				maior = null;
+				for (Cliente c : servico.getListaCliente()) {
+					quant = c.getListaAvaliados().size();
+					if (quant > maiorquant) {
+						maiorquant = quant;
+						maior = c;
+					}
+				}
+				System.out.println("Cliente com maior quantidade de midias assistidas é: " + maior.getNome() + "! \nAvaliou um total de: " + maior.getListaAvaliados().size() + " Midias!");
+				break;
+				
+			case 3:
+				maiorquant = 0;
+				quant = 0;
+				maior = null;
+				int quantCliente = 0;
+				for(Cliente c : servico.getListaCliente()) {
+					quant = c.getListaAvaliados().size();
+					quantCliente ++;
+					if(quant > 15) {
+						maiorquant ++;
+					}
+				}
+				int porc = (maiorquant * 100)/quantCliente;
+				System.out.println("A porcentagem de clientes com pelo menos 15 avaliações é de: " + porc + "%");
+				break;
+				
+			case 4:
+				maiorquant = 0;
+				quant = 0;
+				List<Midia> midia = new ArrayList<>();
+				midia = servico.getListaMidia().stream().sorted(Comparator.comparing(Midia :: getQuantidadeDeViwers).reversed()).limit(10).toList();
+				System.out.println("O top 10 filmes mais assistidos são:");
+				for (Midia m : midia) {
+					System.out.println(m.getNome());
+				}
+				
+			}
+		}
 	}
 
 	public static void main(String[] args) {
