@@ -155,7 +155,7 @@ public class Main {
 			System.out.println("1 - Qual cliente assistiu mais midias ");
 			System.out.println("2 - Qual cliente tem mais avaliações");
 			System.out.println("3 - Porcentagem de clientes com pelo menos 15 avaliações");
-			System.out.println("4 - Melhores 10 midias com melhor media de avaliação");
+			System.out.println("4 - Melhores 10 midias com maior visualizações");
 			opcao = ent.nextInt();
 			switch (opcao) {
 
