@@ -212,7 +212,7 @@ public class Main {
 				for (Midia m : midia) {
 					System.out.println(m.getNome());
 				}
-				
+				break;
 			}
 		}
 	}
