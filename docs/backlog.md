@@ -28,6 +28,8 @@ Atualizado em 30/05/2023
 | 19. Adicioanr os generos de midia      | Pedro    ✔️   |
 | 20. Qual cliente assistiu mais mídias, e quantas mídias  | Julia   ✔️| 
 | 21. Qual cliente tem mais avaliações, e quantas avaliações  | Julia  ✔️ | 
+| 22. Qual a porcentagem dos clientes com pelo menos 15 avaliações;  | Pedro  ✔️ | 
+| 23. Quais são as 10 mídias com a melhor média de avaliações e que tenham sido vistas pelo menos 100 vezes, apresentadas em ordem decrescente  | Pedro  ✔️ | 
 
 ----
 
@@ -35,11 +37,9 @@ Atualizado em 30/05/2023
 
 | Tarefa      | Responsável |
 | ----------- | ----------- |
-| 1. Qual a porcentagem dos clientes com pelo menos 15 avaliações;  | Pedro  ➕➖ | 
-| 2. Quais são as 10 mídias com a melhor média de avaliações e que tenham sido vistas pelo menos 100 vezes, apresentadas em ordem decrescente  | Pedro  ➕➖ | 
-| 3. Quais são as 10 mídias com mais visualizações, em ordem decrescente  | Ana  ➕➖ | 
-| 4. Estes mesmos dois últimos relatórios, porém com as mídias separadas por gênero  | Julia  ➕➖ | 
-
-
+| 1. Quais são as 10 mídias com mais visualizações, em ordem decrescente  | Ana  ➕➖ | 
+| 2. Estes mesmos dois últimos relatórios, porém com as mídias separadas por gênero  | Julia  ➕➖ | 
+| 3. Documentar os métodos  | Pedro  ➕➖ | 
+| 4. Entregar o diagrama de classes  | Ana  ➕➖ | 
 
 > Written with [StackEdit](https://stackedit.io/).
