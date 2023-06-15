@@ -2,7 +2,10 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -83,8 +86,8 @@ public class Main {
 				if (!midias2.isEmpty()) {
 					midias2.stream()
 							.map(m -> " " + m.getNome() + "\n Avaliação:" + String.valueOf(m.getAvaliacao())
-									+ "\n Data de Lançamento:" + m.getDataLancamento() + "\n Idiomas: " + m.getIdioma().toString()
-									+ "\n Generos:" + m.getGenero().toString() + "\n")
+									+ "\n Data de Lançamento:" + m.getDataLancamento() + "\n Idiomas: "
+									+ m.getIdioma().toString() + "\n Generos:" + m.getGenero().toString() + "\n")
 							.forEach(System.out::println);
 
 					System.out.println("Qual midia assistida deseja Comentar?");
@@ -149,6 +152,7 @@ public class Main {
 		int maiorquant = 0;
 		Cliente maior = null;
 		List<Midia> midia;
+		Map<Object, List<Midia>> listaMidia;
 		int opcao = 1;
 		while (opcao != 0) {
 			System.out.println("Qual relátorio deseja ver?");
@@ -156,6 +160,10 @@ public class Main {
 			System.out.println("2 - Qual cliente tem mais avaliações");
 			System.out.println("3 - Porcentagem de clientes com pelo menos 15 avaliações");
 			System.out.println("4 - Melhores 10 midias com maior visualizações");
+			System.out.println("5 - Melhores 10 midias com maior media de avaliação com mais de 100 visualizações");
+			System.out.println("6 - Melhores 10 mídias com mais visualizações separadas por gênero");
+			System.out.println(
+					"7 - Melhores 10 midias com maior media de avaliação com mais de 100 visualizações separadas por gênero");
 			System.out.println("0 - Sair");
 			opcao = ent.nextInt();
 			switch (opcao) {
@@ -171,7 +179,8 @@ public class Main {
 						maior = c;
 					}
 				}
-				System.out.println("Cliente com maior quantidade de midias assistidas é: " + maior.getNome() + "! \nAssistiu um total de: " + maior.getListaAssistidos().size() + " Midias!");
+				System.out.println("Cliente com maior quantidade de midias assistidas é: " + maior.getNome()
+						+ "! \nAssistiu um total de: " + maior.getListaAssistidos().size() + " Midias!");
 				break;
 
 			case 2:
@@ -185,34 +194,92 @@ public class Main {
 						maior = c;
 					}
 				}
-				System.out.println("Cliente com maior quantidade de midias assistidas é: " + maior.getNome() + "! \nAvaliou um total de: " + maior.getListaAvaliados().size() + " Midias!");
+				System.out.println("Cliente com maior quantidade de midias assistidas é: " + maior.getNome()
+						+ "! \nAvaliou um total de: " + maior.getListaAvaliados().size() + " Midias!");
 				break;
-				
+
 			case 3:
 				maiorquant = 0;
 				quant = 0;
 				maior = null;
 				int quantCliente = 0;
-				for(Cliente c : servico.getListaCliente()) {
+				for (Cliente c : servico.getListaCliente()) {
 					quant = c.getListaAvaliados().size();
-					quantCliente ++;
-					if(quant > 15) {
-						maiorquant ++;
+					quantCliente++;
+					if (quant > 15) {
+						maiorquant++;
 					}
 				}
-				int porc = (maiorquant * 100)/quantCliente;
+				int porc = (maiorquant * 100) / quantCliente;
 				System.out.println("A porcentagem de clientes com pelo menos 15 avaliações é de: " + porc + "%");
 				break;
-				
+
 			case 4:
 				midia = new ArrayList<>();
-				midia = servico.getListaMidia().stream().sorted(Comparator.comparing(Midia :: getQuantidadeDeViwers).reversed()).limit(10).toList();
+				midia = servico.getListaMidia().stream()
+						.sorted(Comparator.comparing(Midia::getQuantidadeDeViwers).reversed()).limit(10).toList();
 				System.out.println("O top 10 filmes mais assistidos são:");
 				for (Midia m : midia) {
 					System.out.println(m.getNome());
 				}
 				break;
-			}	
+
+			case 5:
+				midia = new ArrayList<>();
+				midia = servico.getListaMidia().stream().filter(m -> m.getQuantidadeDeViwers() >= 100)
+						.sorted(Comparator.comparing(Midia::getAvaliacao).reversed()).limit(10).toList();
+				if (!midia.isEmpty()) {
+					System.out.println("O top 10 filmes com melhor avaliação são:");
+					for (Midia m : midia) {
+						System.out.println(m.getNome());
+					}
+				} else {
+					System.out.println("Não há midias com mais de 100 visualizações.");
+				}
+				break;
+
+			case 6:
+				listaMidia = servico.getListaMidia().stream()
+						.sorted(Comparator.comparing(Midia::getQuantidadeDeViwers).reversed())
+						.collect(Collectors.groupingBy(Midia::getGenero));
+
+				Map<String, List<Midia>> listaMidiaPorGenero = new TreeMap<>();
+				listaMidia.forEach((genero, mid) -> {
+					List<Midia> dezMidiasDoGenero = mid.stream().distinct().limit(10).collect(Collectors.toList());
+					listaMidiaPorGenero.put((String) genero, dezMidiasDoGenero);
+				});
+
+				listaMidiaPorGenero.forEach((genero, mi) -> {
+					System.out.println("Gênero: " + genero);
+					System.out.println("Mídias:");
+					mi.forEach(m -> System.out.println(m.getNome()));
+					System.out.println();
+				});
+				break;
+
+			case 7:
+				listaMidia = servico.getListaMidia().stream().filter(Midia -> Midia.getQuantidadeDeViwers() >= 100)
+						.sorted(Comparator.comparing(Midia::getAvaliacao).reversed())
+						.collect(Collectors.groupingBy(Midia::getGenero));
+
+				Map<String, List<Midia>> listaMidiaPorGenero2 = new TreeMap<>();
+				listaMidia.forEach((genero, mid) -> {
+					List<Midia> dezMidiasDoGenero = mid.stream().distinct().limit(10).collect(Collectors.toList());
+					listaMidiaPorGenero2.put((String) genero, dezMidiasDoGenero);
+				});
+
+				if (!listaMidiaPorGenero2.isEmpty()) {
+					listaMidiaPorGenero2.forEach((genero, mi) -> {
+						System.out.println("Gênero: " + genero);
+						System.out.println("Mídias:");
+						mi.forEach(m -> System.out.println(m.getNome()));
+						System.out.println();
+					});
+				} else {
+					System.out.println("Não há midias com mais de 100 visualizações.");
+				}
+				break;
+			}
 		}
 	}
 

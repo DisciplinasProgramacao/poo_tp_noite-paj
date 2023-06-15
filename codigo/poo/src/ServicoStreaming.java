@@ -208,20 +208,25 @@ public class ServicoStreaming {
 	 * @throws MidiaNaoEncontradaException 
 	 */
 	public void avaliar(double nota, String busca) throws MidiaNaoEncontradaException {
-		Midia midiaAvaliada = buscarGeral(busca, "geral").get(0);
-		Collection<Midia> verificacao = clienteLogado.getListaAvaliados().values();
-		if(nota <= 5 && nota >= 1) {
-			if (!verificacao.contains(midiaAvaliada)) {
-				midiaAvaliada.availiar(nota);
-				clienteLogado.setListaAvaliados(midiaAvaliada);
+		try {
+			Midia midiaAvaliada = buscarGeral(busca, "geral").get(0);
+			Collection<Midia> verificacao = clienteLogado.getListaAvaliados().values();
+			if(nota <= 5 && nota >= 1) {
+				if (!verificacao.contains(midiaAvaliada)) {
+					midiaAvaliada.availiar(nota);
+					clienteLogado.setListaAvaliados(midiaAvaliada);
+				}
+				else {
+					throw new MidiaNaoEncontradaException("Midia já avaliada! Favor inserir outra midia!");
+				}
+				
+			} else {
+				throw new IllegalArgumentException("Nota inválida! Por favor escolha uma entre 1 e 5!");
 			}
-			else {
-				throw new MidiaNaoEncontradaException("Midia já avaliada! Favor inserir outra midia!");
-			}
-			
-		} else {
-			throw new IllegalArgumentException("Nota inválida! Por favor escolha uma entre 1 e 5!");
+		} catch(IndexOutOfBoundsException e) {
+			System.out.println(e.getMessage());
 		}
+		
 		
 	}
 

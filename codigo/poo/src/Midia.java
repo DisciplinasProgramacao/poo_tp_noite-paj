@@ -8,7 +8,7 @@ public class Midia implements Comparable<Midia> {
 	protected final String idMidia;
 	protected final String nome;
 	protected ArrayList<String> idioma = new ArrayList<>();
-	protected ArrayList<String> genero = new ArrayList<>();
+	protected String genero;
 	protected final LocalDate dataLancamento;
 	protected int quantidadeDeViwers;
 	protected double avaliacao;
@@ -20,10 +20,7 @@ public class Midia implements Comparable<Midia> {
 			if(!idioma.contains(Idioma.randomIdioma().getDescricao()))
 			this.idioma.add(Idioma.randomIdioma().getDescricao());
 		}
-		for(int i=0; i<4; i++) {
-			if(!genero.contains(Genero.randomGenero().getDescricao()))
-			this.genero.add(Genero.randomGenero().getDescricao());
-		}
+		this.genero = (Genero.randomGenero().getDescricao());
 	}
 
 	public Midia(String idMidia, String nome, LocalDate dataLancamento) {
@@ -34,16 +31,8 @@ public class Midia implements Comparable<Midia> {
 		init();
 	}
 
-	public void adicionarGenero(String genero) {
-		this.genero.add(genero);
-	}
-
 	public void adicionarIdioma(String idioma) {
 		this.idioma.add(idioma);
-	}
-
-	public void removerGenero(String genero) {
-		this.genero.remove(genero);
 	}
 
 	public void removerIdioma(String idioma) {
@@ -78,7 +67,7 @@ public class Midia implements Comparable<Midia> {
 		return idioma;
 	}
 
-	public ArrayList<String> getGenero() {
+	public String getGenero() {
 		return genero;
 	}
 
