@@ -9,16 +9,15 @@ public class Filme extends Midia{
 		super(idMidia, nome, dataLancamento);
 		this.duracao = duracao;
 	}
-
+	
+	public Filme(String nome, LocalDate dataLancamento, int duracao) {
+		super(nome, dataLancamento);
+		this.duracao = duracao;
+	}
 	
 	//Getters and Setters 
 	
 	protected int getDuracao() {
 		return duracao;
 	}
-
-	protected void setDuracao(int duracao) {
-		this.duracao = duracao;
-	}
-
 }

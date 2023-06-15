@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.time.LocalDate;
@@ -7,13 +8,19 @@ import java.time.LocalDate;
 public class Midia implements Comparable<Midia> {
 	protected final String idMidia;
 	protected final String nome;
+	
 	protected ArrayList<String> idioma = new ArrayList<>();
 	protected String genero;
+	
 	protected final LocalDate dataLancamento;
 	protected int quantidadeDeViwers;
+	
 	protected double avaliacao;
 	protected ArrayList<Double> notas = new ArrayList<>();
+	
 	protected SortedMap<String,String> listaComentarios = new TreeMap<>();
+	
+	protected boolean ehLancamento;
 	
 	public void init() {
 		for(int i=0; i<2; i++) {
@@ -21,6 +28,10 @@ public class Midia implements Comparable<Midia> {
 			this.idioma.add(Idioma.randomIdioma().getDescricao());
 		}
 		this.genero = (Genero.randomGenero().getDescricao());
+		
+		LocalDate data = LocalDate.now();
+		if(dataLancamento.getMonth().equals(data.getMonth())) ehLancamento = true;
+		else ehLancamento = false;
 	}
 
 	public Midia(String idMidia, String nome, LocalDate dataLancamento) {
@@ -31,6 +42,15 @@ public class Midia implements Comparable<Midia> {
 		init();
 	}
 
+	public Midia(String nome, LocalDate dataLancamento) {
+		Random num = new Random();
+		this.nome = nome;
+		this.dataLancamento = dataLancamento;
+		this.idMidia = Integer.toString(num.nextInt(100000) + 10000);
+		this.quantidadeDeViwers = 0;
+		init();
+	}
+	
 	public void adicionarIdioma(String idioma) {
 		this.idioma.add(idioma);
 	}
@@ -93,6 +113,10 @@ public class Midia implements Comparable<Midia> {
 	
 	public int getQuantidadeDeViwers() {
 		return quantidadeDeViwers;
+	}
+	
+	public boolean getEhLancamento() {
+		return ehLancamento;
 	}
 
 }

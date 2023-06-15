@@ -3,7 +3,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class Cliente implements Comparable<Cliente>,IComentar{
@@ -11,8 +10,8 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 	private String nome;
 	private String usuario;
 	private String senha;
-	private ArrayList<Midia> listaAssistidos = new ArrayList<>();
-	private ArrayList<Midia> listaAssistir = new ArrayList<>();
+	protected ArrayList<Midia> listaAssistidos = new ArrayList<>();
+	protected ArrayList<Midia> listaAssistir = new ArrayList<>();
 
 	public Cliente(String nome, String usuario, String senha) {
 		this.nome = nome;
@@ -38,14 +37,18 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 	 * 
 	 * @param opcao, opcao para escolher a lista desejada (F para assistir futuramente ou A para já assistidas)
 	 * @param midia, objeto da classe Midia, o filme ou a serie a ser adicionada
+	 * @throws MidiaJaAdicionadaException 
+	 * @throws SemPermissaoException 
 	 */
-	protected void adicionar(String opcao, Midia midia) {
+	protected void adicionar(String opcao, Midia midia) throws MidiaJaAdicionadaException, SemPermissaoException {
 		switch (opcao.toUpperCase()) {
 		case "F":
+			verificaAdicao(midia, true);
 			listaAssistir.add(midia);
 			break;
 
 		case "A":
+			verificaAdicao(midia, false);
 			listaAssistidos.add(midia);
 			midia.assistiu();
 			listaAssistir.remove(midia);
@@ -76,6 +79,17 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 			return resultados;
 		}
 		return null;
+	}
+	
+	public void verificaAdicao(Midia midia, boolean podeAssistir) throws MidiaJaAdicionadaException, SemPermissaoException {
+		if(listaAssistidos.contains(midia)) {
+			throw new MidiaJaAdicionadaException("A Midia já foi adicionada à lista! Favor inserir outra midia.");
+		}else if(listaAssistir.contains(midia)) {
+			throw new MidiaJaAdicionadaException("A Midia já foi adicionada à lista! Favor inserir outra midia.");
+		}
+		if(midia.getEhLancamento() && !podeAssistir) {
+			throw new SemPermissaoException("Você não tem permissão para assistir filmes em lançamento!");
+		}
 	}
 	
 	@Override
@@ -121,6 +135,10 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 	
 	public void comentar(String msg, Midia midia) {
 		IComentar.comentar(msg, midia,this.usuario);
+	}
+	
+	public ArrayList<Midia> getListaAssistidos(){
+		return this.listaAssistidos;
 	}
 
 }

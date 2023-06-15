@@ -1,4 +1,6 @@
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -17,8 +19,9 @@ public class Main {
 			System.out.println("3 - Comentar em uma Midia Assistida");
 			System.out.println("4 - Adicionar Midia a lista");
 			System.out.println("5 - Relátorios do sistema");
-			System.out.println("6 - Deslogar");
-			System.out.println("7 - Remover Cliente");
+			System.out.println("6 - Adicionar Midia");
+			System.out.println("7 - Deslogar");
+			System.out.println("8 - Remover Cliente");
 
 			opcao = ent.nextInt();
 
@@ -120,12 +123,16 @@ public class Main {
 				break;
 
 			case 6:
+				adicionarMidia(servico, ent);
+				break;
+
+			case 7:
 				servico.deslogar();
 				System.out.println("Cliente deslogado!");
 				opcao = 0;
 				break;
 
-			case 7:
+			case 8:
 				System.out.println("Tem certeza que deseja remover a conta? S/N");
 				char op = ent.next().charAt(0);
 				Character.toUpperCase(op);
@@ -283,6 +290,68 @@ public class Main {
 		}
 	}
 
+	public static void adicionarMidia(ServicoStreaming servico, Scanner ent) {
+		int opcao = 1;
+		String nome;
+		LocalDate data;
+		String dt;
+		int quantEp;
+		int duracao;
+		while (opcao != 0) {
+			System.out.println("Qual midia deseja adicionar?");
+			System.out.println("1 - Serie");
+			System.out.println("2 - Filme");
+			System.out.println("0 - Sair");
+			opcao = ent.nextInt();
+
+			switch (opcao) {
+			case 1:
+				ent.nextLine();
+				System.out.println("Digite o nome da Serie:");
+				nome = ent.nextLine();
+				System.out.println("Digite a data de lancamento: (dd/mm/aaaa)");
+				dt = ent.nextLine();
+				if (dt.length() == 10) {
+					System.out.println("Digite a quantidade de episodeos:");
+					quantEp = ent.nextInt();
+
+					DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+					data = LocalDate.parse(dt, formato);
+
+					Midia serie = new Serie(nome, data, quantEp);
+					servico.adicionarMidia(serie);
+					System.out.println("Serie adicionada ao sistema!");
+				} else {
+					System.out.println("Insira uma data válida!");
+				}
+
+				break;
+
+			case 2:
+				ent.nextLine();
+				System.out.println("Digite o nome do Filme:");
+				nome = ent.nextLine();
+				System.out.println("Digite a data de lancamento: (dd/mm/aaaa)");
+				dt = ent.nextLine();
+				if (dt.length() == 10) {
+					System.out.println("Digite a duração:");
+					duracao = ent.nextInt();
+
+					DateTimeFormatter formato1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+					data = LocalDate.parse(dt, formato1);
+
+					Midia filme = new Filme(nome, data, duracao);
+					servico.adicionarMidia(filme);
+					System.out.println("Filme adicionado ao sistema!");
+				} else {
+					System.out.println("Insira uma data válida!");
+				}
+
+				break;
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		Scanner ent = new Scanner(System.in);
 
@@ -317,20 +386,54 @@ public class Main {
 				}
 				break;
 			case 2:
+				Cliente cliente;
 				ent.nextLine();
-				System.out.println("Digite seu nome:");
+				System.out.println("Digite seu nome: (minimo de 3 letras!)");
 				String nome = ent.nextLine();
-				System.out.println("Digite o usuário:");
+				System.out.println("Digite o usuário: (minimo de 4 letras!)");
 				usuario = ent.nextLine();
-				System.out.println("Digite a senha:");
+				System.out.println("Digite a senha: (minimo de 4 letras!)");
 				senha = ent.nextLine();
+				System.out.println("É cliente profissional? (sim / nao)");
+				String tc = ent.nextLine();
+				switch (tc.toLowerCase()) {
+				case "sim":
+					cliente = new ClienteProfissional(nome, usuario, senha);
+					try {
+						verificaCliente(cliente);
+						servico.cadastrar(cliente);
+						System.out.println("Usuário cadastrado com sucesso!");
+					} catch (ClienteInvalidoException e) {
+						System.out.println(e.getMessage());
+					}
+					
+					break;
 
-				servico.cadastrar(nome, usuario, senha);
-				System.out.println("Usuário cadastrado com sucesso!");
+				case "nao":
+					cliente = new Cliente(nome, usuario, senha);
+					try {
+						verificaCliente(cliente);
+						servico.cadastrar(cliente);
+						System.out.println("Usuário cadastrado com sucesso!");
+					} catch (ClienteInvalidoException e) {
+						System.out.println(e.getMessage());
+					}
+					break;
+					
+				default:
+					System.out.println("Erro! Opção inválida, por favor escolher sim ou nao!");
+					System.out.println("Cliente não cadastrado!");
+				}
+				
 				break;
 
 			}
 		}
-
+	}
+	
+	public static void verificaCliente(Cliente cliente) throws ClienteInvalidoException {
+		if(cliente.getNome().length() < 3 || cliente.getSenha().length() < 4 || cliente.getUsuario().length() < 4) {
+			throw new ClienteInvalidoException("Informações inválidas. Favor seguir as restrições de cadastro!");
+		}
 	}
 }

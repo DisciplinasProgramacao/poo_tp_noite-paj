@@ -48,9 +48,17 @@ public class ServicoStreaming {
 	 * @param nome,    string que carrega o nome do cliente
 	 * @param usuario, string que carrega o usuario escolhido pelo cliente
 	 * @param senha,   string que carrega a senha escolhida pelo cliente
+	 * @throws ClienteInvalidoException 
 	 */
-	public void cadastrar(String nome, String usuario, String senha) {
-		listaCliente.add(new Cliente(nome, usuario, senha));
+	public void cadastrar(Cliente cliente) throws ClienteInvalidoException {
+			verificaCadastro(cliente);
+			listaCliente.add(cliente);
+	}
+
+	private void verificaCadastro(Cliente cliente) throws ClienteInvalidoException {
+		if(listaCliente.stream().anyMatch(cli -> cli.getUsuario().equals(cliente.getNome()))) {
+			throw new ClienteInvalidoException("Usuário já esta cadastrado! Escolha outro usuário!");
+		}
 	}
 
 	/**
@@ -110,7 +118,7 @@ public class ServicoStreaming {
 	 * 
 	 * @param midia, recebe um objeto midia
 	 */
-	private void adicionarMidia(Midia midia) {
+	public void adicionarMidia(Midia midia) {
 		listaMidia.add(midia);
 	}
 
@@ -135,7 +143,12 @@ public class ServicoStreaming {
 			String linha = lerarq.readLine();
 			while (linha != null) {
 				String[] linhaPartida = linha.split(";");
-				cadastrar(linhaPartida[0], linhaPartida[1], linhaPartida[2]);
+				Cliente cliente =  new Cliente(linhaPartida[0], linhaPartida[1], linhaPartida[2]);
+				try {
+					cadastrar(cliente);
+				} catch (ClienteInvalidoException e) {
+					System.out.println(e.getMessage());
+				}
 				linha = lerarq.readLine();
 			}
 
@@ -151,7 +164,7 @@ public class ServicoStreaming {
 				linha2 = lerarq2.readLine();
 			}
 
-			/*String linha3 = lerarq3.readLine();
+			String linha3 = lerarq3.readLine();
 			while (linha3 != null) {
 				String[] linhaPartida3 = linha3.split(";");
 
@@ -163,10 +176,12 @@ public class ServicoStreaming {
 						cliente.adicionar(linhaPartida3[1], midia);
 					} catch (MidiaJaAdicionadaException e) {
 						System.out.println(e.getMessage());
+					} catch (SemPermissaoException e) {
+						System.out.println(e.getMessage());
 					}
 
 				linha3 = lerarq3.readLine();
-			}*/
+			}
 
 			String linha4 = lerarq4.readLine();
 			while (linha != null) {
@@ -236,6 +251,8 @@ public class ServicoStreaming {
 			try {
 				clienteLogado.adicionar(opcao, midia);
 			} catch (MidiaJaAdicionadaException e) {
+				System.out.println(e.getMessage());
+			} catch (SemPermissaoException e) {
 				System.out.println(e.getMessage());
 			}
 		else throw new MidiaNaoEncontradaException("Não foi encontrado nenhum filme ou série com esse nome.");
