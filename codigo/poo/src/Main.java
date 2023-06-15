@@ -204,8 +204,6 @@ public class Main {
 				break;
 				
 			case 4:
-				maiorquant = 0;
-				quant = 0;
 				List<Midia> midia = new ArrayList<>();
 				midia = servico.getListaMidia().stream().sorted(Comparator.comparing(Midia :: getQuantidadeDeViwers).reversed()).limit(10).toList();
 				System.out.println("O top 10 filmes mais assistidos são:");
