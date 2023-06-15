@@ -1,13 +1,12 @@
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class Filme extends Midia{
 	
 	private int duracao;
 
-	public Filme(String idMidia, String nome, LocalDate dataLancamento, ArrayList<String> idioma, ArrayList<String> genero, int duracao) {
-		super(idMidia, nome, dataLancamento, idioma, genero);
+	public Filme(String idMidia, String nome, LocalDate dataLancamento, int duracao) {
+		super(idMidia, nome, dataLancamento);
 		this.duracao = duracao;
 	}
 

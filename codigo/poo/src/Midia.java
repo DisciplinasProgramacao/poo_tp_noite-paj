@@ -14,15 +14,24 @@ public class Midia implements Comparable<Midia> {
 	protected double avaliacao;
 	protected ArrayList<Double> notas = new ArrayList<>();
 	protected SortedMap<String,String> listaComentarios = new TreeMap<>();
+	
+	public void init() {
+		for(int i=0; i<2; i++) {
+			if(!idioma.contains(Idioma.randomIdioma().getDescricao()))
+			this.idioma.add(Idioma.randomIdioma().getDescricao());
+		}
+		for(int i=0; i<4; i++) {
+			if(!genero.contains(Genero.randomGenero().getDescricao()))
+			this.genero.add(Genero.randomGenero().getDescricao());
+		}
+	}
 
-	public Midia(String idMidia, String nome, LocalDate dataLancamento, ArrayList<String> idioma,
-			ArrayList<String> genero) {
+	public Midia(String idMidia, String nome, LocalDate dataLancamento) {
 		this.idMidia = idMidia;
 		this.nome = nome;
 		this.dataLancamento = dataLancamento;
 		this.quantidadeDeViwers = 0;
-		this.idioma = idioma;
-		this.genero = genero;
+		init();
 	}
 
 	public void adicionarGenero(String genero) {
@@ -91,6 +100,10 @@ public class Midia implements Comparable<Midia> {
 
 	protected SortedMap<String, String> getListaComentarios() {
 		return listaComentarios;
+	}
+	
+	public int getQuantidadeDeViwers() {
+		return quantidadeDeViwers;
 	}
 
 }

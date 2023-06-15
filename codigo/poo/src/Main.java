@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 public class Main {
 
@@ -84,8 +83,8 @@ public class Main {
 				if (!midias2.isEmpty()) {
 					midias2.stream()
 							.map(m -> " " + m.getNome() + "\n Avaliação:" + String.valueOf(m.getAvaliacao())
-									+ "\n Data de Lançamento:" + m.getDataLancamento() + "\n Idiomas: " + m.getIdioma()
-									+ "\n Generos:" + m.getGenero() + "\n")
+									+ "\n Data de Lançamento:" + m.getDataLancamento() + "\n Idiomas: " + m.getIdioma().toString()
+									+ "\n Generos:" + m.getGenero().toString() + "\n")
 							.forEach(System.out::println);
 
 					System.out.println("Qual midia assistida deseja Comentar?");
@@ -149,6 +148,7 @@ public class Main {
 		int quant;
 		int maiorquant = 0;
 		Cliente maior = null;
+		List<Midia> midia;
 		int opcao = 1;
 		while (opcao != 0) {
 			System.out.println("Qual relátorio deseja ver?");
@@ -156,6 +156,7 @@ public class Main {
 			System.out.println("2 - Qual cliente tem mais avaliações");
 			System.out.println("3 - Porcentagem de clientes com pelo menos 15 avaliações");
 			System.out.println("4 - Melhores 10 midias com maior visualizações");
+			System.out.println("0 - Sair");
 			opcao = ent.nextInt();
 			switch (opcao) {
 
@@ -204,14 +205,14 @@ public class Main {
 				break;
 				
 			case 4:
-				List<Midia> midia = new ArrayList<>();
+				midia = new ArrayList<>();
 				midia = servico.getListaMidia().stream().sorted(Comparator.comparing(Midia :: getQuantidadeDeViwers).reversed()).limit(10).toList();
 				System.out.println("O top 10 filmes mais assistidos são:");
 				for (Midia m : midia) {
 					System.out.println(m.getNome());
 				}
 				break;
-			}
+			}	
 		}
 	}
 

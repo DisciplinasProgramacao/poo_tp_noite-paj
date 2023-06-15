@@ -1,13 +1,12 @@
 
-import java.util.ArrayList;
 import java.time.LocalDate;
 
 public class Serie extends Midia{
 	
 	private int quantEp;
 	
-	public Serie(String idMidia, String nome, LocalDate dataLancamento, ArrayList<String> idioma, ArrayList<String> genero, int quantEp) {
-		super(idMidia,nome,dataLancamento,idioma,genero);
+	public Serie(String idMidia, String nome, LocalDate dataLancamento, int quantEp) {
+		super(idMidia,nome,dataLancamento);
 		this.quantEp = quantEp;
 	}
 

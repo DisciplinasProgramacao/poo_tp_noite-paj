@@ -16,23 +16,9 @@ public class ServicoStreaming {
 
 	private SortedSet<Midia> listaMidia = new TreeSet<>();
 	private SortedSet<Cliente> listaCliente = new TreeSet<Cliente>();
-	private ArrayList<String> idioma = new ArrayList<>();
-	private ArrayList<String> genero = new ArrayList<>();
 	private Cliente clienteLogado;
 
 	public ServicoStreaming() {
-		idioma.add("Portugues");
-		idioma.add("Ingles");
-		idioma.add("Espanhol");
-		genero.add("Acao");
-		genero.add("Anime");
-		genero.add("Aventura");
-		genero.add("Comedia");
-		genero.add("Documentario");
-		genero.add("Drama");
-		genero.add("Policial");
-		genero.add("Romance");
-		genero.add("Suspense");
 	}
 
 	/**
@@ -160,22 +146,12 @@ public class ServicoStreaming {
 				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				LocalDate dataLancamento = LocalDate.parse(linhaPartida2[2], formato);
 
-				ArrayList<String> idiomas = new ArrayList<>();
-				idiomas.add(idioma.get(gerador.nextInt(2)));
-				idiomas.add(idioma.get(gerador.nextInt(2)));
-
-				ArrayList<String> generos = new ArrayList<>();
-				generos.add(genero.get(gerador.nextInt(8)));
-				generos.add(genero.get(gerador.nextInt(8)));
-				generos.add(genero.get(gerador.nextInt(8)));
-
-				Midia serie = new Serie(linhaPartida2[0], linhaPartida2[1], dataLancamento, idiomas, generos,
-						gerador.nextInt(12));
+				Midia serie = new Serie(linhaPartida2[0], linhaPartida2[1], dataLancamento, gerador.nextInt(12));
 				adicionarMidia(serie);
 				linha2 = lerarq2.readLine();
 			}
 
-			String linha3 = lerarq3.readLine();
+			/*String linha3 = lerarq3.readLine();
 			while (linha3 != null) {
 				String[] linhaPartida3 = linha3.split(";");
 
@@ -188,8 +164,9 @@ public class ServicoStreaming {
 					} catch (MidiaJaAdicionadaException e) {
 						System.out.println(e.getMessage());
 					}
+
 				linha3 = lerarq3.readLine();
-			}
+			}*/
 
 			String linha4 = lerarq4.readLine();
 			while (linha != null) {
@@ -198,18 +175,9 @@ public class ServicoStreaming {
 				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				LocalDate dataLancamento = LocalDate.parse(linhaPartida4[2], formato);
 
-				ArrayList<String> idiomas = new ArrayList<>();
-				idiomas.add(idioma.get(gerador.nextInt(2)));
-				idiomas.add(idioma.get(gerador.nextInt(2)));
-
-				ArrayList<String> generos = new ArrayList<>();
-				generos.add(genero.get(gerador.nextInt(8)));
-				generos.add(genero.get(gerador.nextInt(8)));
-				generos.add(genero.get(gerador.nextInt(8)));
-
 				int duracao = Integer.parseInt(linhaPartida4[3]);
 
-				Midia filme = new Filme(linhaPartida4[0], linhaPartida4[1], dataLancamento, idiomas, generos, duracao);
+				Midia filme = new Filme(linhaPartida4[0], linhaPartida4[1], dataLancamento, duracao);
 				adicionarMidia(filme);
 				linha4 = lerarq4.readLine();
 			}
