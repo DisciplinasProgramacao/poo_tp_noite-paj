@@ -162,9 +162,12 @@ public class ServicoStreaming {
 
 				ArrayList<String> idiomas = new ArrayList<>();
 				idiomas.add(idioma.get(gerador.nextInt(2)));
+				idiomas.add(idioma.get(gerador.nextInt(2)));
 
 				ArrayList<String> generos = new ArrayList<>();
-				generos.add(genero.get(gerador.nextInt(4)));
+				generos.add(genero.get(gerador.nextInt(8)));
+				generos.add(genero.get(gerador.nextInt(8)));
+				generos.add(genero.get(gerador.nextInt(8)));
 
 				Midia serie = new Serie(linhaPartida2[0], linhaPartida2[1], dataLancamento, idiomas, generos,
 						gerador.nextInt(12));
@@ -172,7 +175,7 @@ public class ServicoStreaming {
 				linha2 = lerarq2.readLine();
 			}
 
-			/*String linha3 = lerarq3.readLine();
+			String linha3 = lerarq3.readLine();
 			while (linha3 != null) {
 				String[] linhaPartida3 = linha3.split(";");
 
@@ -180,10 +183,13 @@ public class ServicoStreaming {
 				Cliente cliente = listaCliente.stream().filter(c -> c.getUsuario().equals(linhaPartida3[0])).findFirst().orElse(null);
 				
 				if(cliente != null && midia != null)
-				cliente.adicionar(linhaPartida3[1], midia);
-
+					try {
+						cliente.adicionar(linhaPartida3[1], midia);
+					} catch (MidiaJaAdicionadaException e) {
+						System.out.println(e.getMessage());
+					}
 				linha3 = lerarq3.readLine();
-			}*/
+			}
 
 			String linha4 = lerarq4.readLine();
 			while (linha != null) {
@@ -194,9 +200,12 @@ public class ServicoStreaming {
 
 				ArrayList<String> idiomas = new ArrayList<>();
 				idiomas.add(idioma.get(gerador.nextInt(2)));
+				idiomas.add(idioma.get(gerador.nextInt(2)));
 
 				ArrayList<String> generos = new ArrayList<>();
-				generos.add(genero.get(gerador.nextInt(4)));
+				generos.add(genero.get(gerador.nextInt(8)));
+				generos.add(genero.get(gerador.nextInt(8)));
+				generos.add(genero.get(gerador.nextInt(8)));
 
 				int duracao = Integer.parseInt(linhaPartida4[3]);
 
