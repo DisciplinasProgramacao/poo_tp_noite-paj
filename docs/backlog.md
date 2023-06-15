@@ -38,7 +38,7 @@ Atualizado em 30/05/2023
 
 | Tarefa      | Responsável |
 | ----------- | ----------- |
-| 1. Documentar os métodos  | Pedro  ➕➖ | 
-| 2. Entregar o diagrama de classes  | Ana  ➕➖ | 
+| 1. Documentar os métodos  | Julia  ➕➖ | 
+| 2. Entregar o diagrama de classes  | Julia  ➕➖ | 
 
 > Written with [StackEdit](https://stackedit.io/).
