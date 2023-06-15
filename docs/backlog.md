@@ -38,7 +38,8 @@ Atualizado em 30/05/2023
 
 | Tarefa      | Responsável |
 | ----------- | ----------- |
-| 1. Documentar os métodos  | Julia  ➕➖ | 
-| 2. Entregar o diagrama de classes  | Julia  ➕➖ | 
+| 1. Criação da classe Cliente Profissional e seus beneficios  | Pedro  ➕➖ | 
+| 2. Documentar os métodos  | Julia  ➕➖ | 
+| 3. Entregar o diagrama de classes  | Julia  ➕➖ | 
 
 > Written with [StackEdit](https://stackedit.io/).
