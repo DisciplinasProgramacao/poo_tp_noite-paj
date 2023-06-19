@@ -33,13 +33,15 @@ Atualizado em 30/05/2023
 | 24. Quais são as 10 mídias com a melhor média de avaliações e que tenham sido vistas pelo menos 100 vezes, apresentadas em ordem decrescente  | Ana  ✔️ | 
 | 25. Estes mesmos dois últimos relatórios, porém com as mídias separadas por gênero  | Ana  ✔️ | 
 | 26. Criação da classe Cliente Profissional e seus beneficios  | Pedro  ✔️ | 
+| 27. Documentar os métodos  | Ana  ➕➖ | 
+| 28. Entregar o diagrama de classes  | Julia  ➕➖ | 
 ----
 
 ## Tarefas pendentes (em ordem de prioridade)
 
 | Tarefa      | Responsável |
 | ----------- | ----------- |
-| 1. Documentar os métodos  | Julia  ➕➖ | 
-| 2. Entregar o diagrama de classes  | Julia  ➕➖ | 
+
+
 
 > Written with [StackEdit](https://stackedit.io/).
