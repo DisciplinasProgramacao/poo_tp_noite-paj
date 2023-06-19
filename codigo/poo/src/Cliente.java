@@ -160,4 +160,7 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 		return this.listaAssistidos;
 	}
 
+	public ArrayList<Midia> getListaAssistir() {
+		return listaAssistir;
+	}
 }

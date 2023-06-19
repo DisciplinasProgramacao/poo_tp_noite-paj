@@ -80,11 +80,12 @@ public class ServicoStreaming {
 	 * 
 	 */
 	public void removerCliente(String senha) throws UsuarioSenhaErradosException {
-		if (clienteLogado.logar(senha))
+		if (clienteLogado != null && clienteLogado.logar(senha)) {
 			listaCliente.remove(clienteLogado.getUsuario());
-
-		else
-			throw new UsuarioSenhaErradosException("Senha inválida.");
+			clienteLogado = null; // Efetua o logout do cliente removido
+		} else {
+			throw new UsuarioSenhaErradosException("Senha inválida ou nenhum cliente logado.");
+		}
 	}
 
 	/**
@@ -295,5 +296,9 @@ public class ServicoStreaming {
 
 	public Map<String, Midia> getListaMidia() {
 		return listaMidia;
+	}
+
+	public Cliente getClienteLogado() {
+		return clienteLogado;
 	}
 }
