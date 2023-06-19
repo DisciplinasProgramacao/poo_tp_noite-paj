@@ -1,30 +1,26 @@
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
-/**
- * Classe ServicoStreaming:
- * Usando: encapsulamento, construtores
- */
+
 public class ServicoStreaming {
 
-	//#region atributos
-	private SortedSet<Midia> listaMidia = new TreeSet<>();
-	private SortedSet<Cliente> listaCliente = new TreeSet<Cliente>();
+	private Map<String, Midia> listaMidia = new HashMap<>();
+	private Map<String, Cliente> listaCliente = new HashMap<>();
 	private Cliente clienteLogado;
 
 	public ServicoStreaming() {
 	}
-	//#endregion
+
 	/**
 	 * Metodo para realizar o login do usuario no servico. Ele permanecerá logado
 	 * até que deslogue. Caso tenha algum erro, será lançado uma Exceção na tela.
@@ -34,7 +30,7 @@ public class ServicoStreaming {
 	 * @throws UsuarioSenhaErradosException
 	 */
 	public void logar(String usuario, String senha) throws UsuarioSenhaErradosException {
-		Cliente cliente = listaCliente.stream().filter(c -> c.getUsuario().equals(usuario)).findFirst().orElse(null);
+		Cliente cliente = listaCliente.get(usuario);
 		if (cliente == null)
 			throw new UsuarioSenhaErradosException("Usuário não encontrado.");
 
@@ -49,16 +45,18 @@ public class ServicoStreaming {
 	 * Metodo usado para cadastrar um novo cliente no sistema e depois salva-lo na
 	 * lista de clientes
 	 * 
-	 * @param cliente, cliente a ser cadastrado
-	 * @throws ClienteInvalidoException 
+	 * @param nome,    string que carrega o nome do cliente
+	 * @param usuario, string que carrega o usuario escolhido pelo cliente
+	 * @param senha,   string que carrega a senha escolhida pelo cliente
+	 * @throws ClienteInvalidoException
 	 */
 	public void cadastrar(Cliente cliente) throws ClienteInvalidoException {
-			verificaCadastro(cliente);
-			listaCliente.add(cliente);
+		verificaCadastro(cliente);
+		listaCliente.put(cliente.getUsuario(), cliente);
 	}
 
 	private void verificaCadastro(Cliente cliente) throws ClienteInvalidoException {
-		if(listaCliente.stream().anyMatch(cli -> cli.getUsuario().equals(cliente.getNome()))) {
+		if (listaCliente.containsKey(cliente.getUsuario())) {
 			throw new ClienteInvalidoException("Usuário já esta cadastrado! Escolha outro usuário!");
 		}
 	}
@@ -74,7 +72,7 @@ public class ServicoStreaming {
 	 */
 	public void removerCliente(String senha) throws UsuarioSenhaErradosException {
 		if (clienteLogado.logar(senha))
-			listaCliente.remove(clienteLogado);
+			listaCliente.remove(clienteLogado.getUsuario());
 
 		else
 			throw new UsuarioSenhaErradosException("Senha inválida.");
@@ -101,7 +99,7 @@ public class ServicoStreaming {
 		opcao = opcao.toLowerCase();
 		switch (opcao) {
 		case "geral":
-			resultados = listaMidia.stream().filter(m -> m.nome.contains(busca)).collect(Collectors.toList());
+			resultados = listaMidia.values().stream().filter(m -> m.nome.contains(busca)).collect(Collectors.toList());
 			return resultados;
 
 		case "assistir":
@@ -121,22 +119,24 @@ public class ServicoStreaming {
 	 * @param midia, recebe um objeto midia
 	 */
 	public void adicionarMidia(Midia midia) {
-		listaMidia.add(midia);
+		listaMidia.put(midia.getIdMidia(), midia);
 	}
 
 	/**
 	 * O metodo realiza a leitura de quatro arquivos contendo a audiencia,
 	 * espectadores e os filmes e series; Durante a leitura, é realizado o
 	 * gravamento das midias e clientes em suas respectivas listas.
+	 * @throws SemPermissaoException 
+	 * @throws MidiaJaAdicionadaException 
 	 * 
 	 */
 	public void lerArquivo() {
 		try {
 			Random gerador = new Random();
-			FileReader arq = new FileReader("D:\\Eclipse\\Programs\\TrabalhoPraticoPOO\\src\\POO_Espectadores.csv");
-			FileReader arq2 = new FileReader("D:\\Eclipse\\Programs\\TrabalhoPraticoPOO\\src\\POO_Series.csv");
-			FileReader arq3 = new FileReader("D:\\Eclipse\\Programs\\TrabalhoPraticoPOO\\src\\POO_Audiencia.csv");
-			FileReader arq4 = new FileReader("D:\\Eclipse\\Programs\\TrabalhoPraticoPOO\\src\\POO_Filmes.csv");
+			FileReader arq = new FileReader("src\\POO_Espectadores.csv");
+			FileReader arq2 = new FileReader("src\\POO_Series.csv");
+			FileReader arq3 = new FileReader("src\\POO_Audiencia.csv");
+			FileReader arq4 = new FileReader("src\\POO_Filmes.csv");
 			BufferedReader lerarq = new BufferedReader(arq);
 			BufferedReader lerarq2 = new BufferedReader(arq2);
 			BufferedReader lerarq3 = new BufferedReader(arq3);
@@ -145,7 +145,7 @@ public class ServicoStreaming {
 			String linha = lerarq.readLine();
 			while (linha != null) {
 				String[] linhaPartida = linha.split(";");
-				Cliente cliente =  new Cliente(linhaPartida[0], linhaPartida[1], linhaPartida[2]);
+				Cliente cliente = new Cliente(linhaPartida[0], linhaPartida[1], linhaPartida[2]);
 				try {
 					cadastrar(cliente);
 				} catch (ClienteInvalidoException e) {
@@ -170,18 +170,15 @@ public class ServicoStreaming {
 			while (linha3 != null) {
 				String[] linhaPartida3 = linha3.split(";");
 
-				Midia midia = listaMidia.stream().filter(m -> m.getIdMidia().equals(linhaPartida3[2])).findFirst().orElse(null);
-				Cliente cliente = listaCliente.stream().filter(c -> c.getUsuario().equals(linhaPartida3[0])).findFirst().orElse(null);
-				
-				if(cliente != null && midia != null)
+				Midia midia = listaMidia.get(linhaPartida3[2]);
+				Cliente cliente = listaCliente.get(linhaPartida3[0]);
+
+				if (cliente != null && midia != null)
 					try {
 						cliente.adicionar(linhaPartida3[1], midia);
-					} catch (MidiaJaAdicionadaException e) {
-						System.out.println(e.getMessage());
-					} catch (SemPermissaoException e) {
-						System.out.println(e.getMessage());
+					} catch (MidiaJaAdicionadaException | SemPermissaoException e) {
+						//System.out.println(e.getMessage());
 					}
-
 				linha3 = lerarq3.readLine();
 			}
 
@@ -222,41 +219,33 @@ public class ServicoStreaming {
 	 * 
 	 * @param nota,  double contendo a nota que deseja ser dada à midia
 	 * @param busca, String contendo a midia que deseja ser avaliada
-	 * @throws MidiaNaoEncontradaException 
+	 * @throws MidiaNaoEncontradaException
 	 */
 	public void avaliar(double nota, String busca) throws MidiaNaoEncontradaException {
 		try {
 			Midia midiaAvaliada = buscarGeral(busca, "geral").get(0);
 			Collection<Midia> verificacao = clienteLogado.getListaAvaliados().values();
-			if(nota <= 5 && nota >= 1) {
+			if (nota <= 5 && nota >= 1) {
 				if (!verificacao.contains(midiaAvaliada)) {
 					midiaAvaliada.availiar(nota);
 					clienteLogado.setListaAvaliados(midiaAvaliada);
-				}
-				else {
+				} else {
 					throw new MidiaNaoEncontradaException("Midia já avaliada! Favor inserir outra midia!");
 				}
-				
+
 			} else {
 				throw new IllegalArgumentException("Nota inválida! Por favor escolha uma entre 1 e 5!");
 			}
-		} catch(IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException e) {
 			System.out.println(e.getMessage());
 		}
-		
-		
+
 	}
-	/**
-	 * O metodo adicionar procura uma mídia na lista de mídias com base no nome fornecido e, se encontrada,
-	 * a adiciona ao cliente logado. Caso a mídia não seja encontrada, uma exceção é lançada.
-	 *
-	 * @param opcao,  contendo a opção que o usuario digitou
-	 * @param mi, String contendo a midia que deseja ser adicionada
-	 * @throws MidiaNaoEncontradaException
-	 */
+
 	public void adicionar(String opcao, String mi) throws MidiaNaoEncontradaException {
-		Midia midia = listaMidia.stream().filter(m -> m.getNome().toLowerCase().equals(mi.toLowerCase())).findFirst().orElse(null);
-		if(midia != null)
+		Midia midia = listaMidia.values().stream().filter(m -> m.getNome().toLowerCase().equals(mi.toLowerCase())).findFirst()
+				.orElse(null);
+		if (midia != null)
 			try {
 				clienteLogado.adicionar(opcao, midia);
 			} catch (MidiaJaAdicionadaException e) {
@@ -264,28 +253,20 @@ public class ServicoStreaming {
 			} catch (SemPermissaoException e) {
 				System.out.println(e.getMessage());
 			}
-		else throw new MidiaNaoEncontradaException("Não foi encontrado nenhum filme ou série com esse nome.");
+		else
+			throw new MidiaNaoEncontradaException("Não foi encontrado nenhum filme ou série com esse nome.");
 	}
-	/**
-	 * O metodo comentar procura uma midia com basse mo nome fornecido pelo parametro busca no metodo buscarGeral
-	 * e adiciona um comentario fornecido pelo usuario à midia encontrada
-	 *
-	 * @param msg,  contendo a opção que o usuario digitou
-	 * @param busca, String contendo a midia que deseja ser adicionada
-	 * @throws MidiaNaoEncontradaException
-	 */
+
 	public void comentar(String msg, String busca) {
 		Midia midiaAvaliada = buscarGeral(busca, "geral").get(0);
 		clienteLogado.comentar(msg, midiaAvaliada);
 	}
 
-
-	// Getters and Setters
-	public SortedSet<Cliente> getListaCliente(){
+	public Map<String, Cliente> getListaCliente() {
 		return listaCliente;
 	}
-	
-	public SortedSet<Midia> getListaMidia(){
+
+	public Map<String, Midia> getListaMidia() {
 		return listaMidia;
 	}
 }
