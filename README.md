@@ -10,7 +10,7 @@ O projeto desenvolvido é um streaming de filmes e series com avaliações e com
 ## Professores responsáveis
 
 * João Caram Santos de Oliveira
-* 
+  
 ## Documentação
 
 - Implementação de todos os diagramas ✔
