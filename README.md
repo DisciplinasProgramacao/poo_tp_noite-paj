@@ -13,12 +13,12 @@ O projeto desenvolvido é um streaming de filmes e series com avaliações e com
 * 
 ## Documentação
 
-Implementação de todos os diagramas ✔
-Exceptions implementadas para o tratamento de erros ✔
-Método(s) para carregar os arquivos ✔
-Interface IComentar para deixar o codigo abstrato✔
-Criação do aplicativo para testar o codigo ✔
-Cadastro de clientes ✔
-Comentarios em Midias ✔
-Codigo documentado ✔
+- Implementação de todos os diagramas ✔
+- Exceptions implementadas para o tratamento de erros ✔
+- Método(s) para carregar os arquivos ✔
+- Interface IComentar para deixar o codigo abstrato✔
+- Criação do aplicativo para testar o codigo ✔
+- Cadastro de clientes ✔
+- Comentarios em Midias ✔
+- Codigo documentado ✔
 
