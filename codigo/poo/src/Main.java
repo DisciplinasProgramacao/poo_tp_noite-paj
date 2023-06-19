@@ -179,7 +179,7 @@ public class Main {
 				maiorquant = 0;
 				quant = 0;
 				maior = null;
-				for (Cliente c : servico.getListaCliente()) {
+				for (Cliente c : servico.getListaCliente().values()) {
 					quant = c.getListaAssistidos().size();
 					if (quant > maiorquant) {
 						maiorquant = quant;
@@ -194,7 +194,7 @@ public class Main {
 				maiorquant = 0;
 				quant = 0;
 				maior = null;
-				for (Cliente c : servico.getListaCliente()) {
+				for (Cliente c : servico.getListaCliente().values()) {
 					quant = c.getListaAvaliados().size();
 					if (quant > maiorquant) {
 						maiorquant = quant;
@@ -210,7 +210,7 @@ public class Main {
 				quant = 0;
 				maior = null;
 				int quantCliente = 0;
-				for (Cliente c : servico.getListaCliente()) {
+				for (Cliente c : servico.getListaCliente().values()) {
 					quant = c.getListaAvaliados().size();
 					quantCliente++;
 					if (quant > 15) {
@@ -223,7 +223,7 @@ public class Main {
 
 			case 4:
 				midia = new ArrayList<>();
-				midia = servico.getListaMidia().stream()
+				midia = servico.getListaMidia().values().stream()
 						.sorted(Comparator.comparing(Midia::getQuantidadeDeViwers).reversed()).limit(10).toList();
 				System.out.println("O top 10 filmes mais assistidos são:");
 				for (Midia m : midia) {
@@ -233,7 +233,7 @@ public class Main {
 
 			case 5:
 				midia = new ArrayList<>();
-				midia = servico.getListaMidia().stream().filter(m -> m.getQuantidadeDeViwers() >= 100)
+				midia = servico.getListaMidia().values().stream().filter(m -> m.getQuantidadeDeViwers() >= 100)
 						.sorted(Comparator.comparing(Midia::getAvaliacao).reversed()).limit(10).toList();
 				if (!midia.isEmpty()) {
 					System.out.println("O top 10 filmes com melhor avaliação são:");
@@ -246,7 +246,7 @@ public class Main {
 				break;
 
 			case 6:
-				listaMidia = servico.getListaMidia().stream()
+				listaMidia = servico.getListaMidia().values().stream()
 						.sorted(Comparator.comparing(Midia::getQuantidadeDeViwers).reversed())
 						.collect(Collectors.groupingBy(Midia::getGenero));
 
@@ -265,7 +265,7 @@ public class Main {
 				break;
 
 			case 7:
-				listaMidia = servico.getListaMidia().stream().filter(Midia -> Midia.getQuantidadeDeViwers() >= 100)
+				listaMidia = servico.getListaMidia().values().stream().filter(Midia -> Midia.getQuantidadeDeViwers() >= 100)
 						.sorted(Comparator.comparing(Midia::getAvaliacao).reversed())
 						.collect(Collectors.groupingBy(Midia::getGenero));
 

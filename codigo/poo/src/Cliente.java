@@ -81,7 +81,7 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 		switch (opcao) {
 		case "assistidas":
 			if(busca != null) resultados = listaAssistidos.stream().filter(m -> m.nome.contains(busca)).collect(Collectors.toList());
-			else return (List<Midia>) listaAssistidos.clone();
+			else return new ArrayList<>(listaAssistidos);
 			return resultados;
 			
 		case "assistir":
