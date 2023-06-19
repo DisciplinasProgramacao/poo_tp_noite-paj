@@ -140,10 +140,10 @@ public class ServicoStreaming {
 	public void lerArquivo() {
 		try {
 			Random gerador = new Random();
-			FileReader arq = new FileReader("D:\\Eclipse\\Programs\\TrabalhoPraticoPOO\\src\\POO_Espectadores.csv");
-			FileReader arq2 = new FileReader("D:\\Eclipse\\Programs\\TrabalhoPraticoPOO\\src\\POO_Series.csv");
-			FileReader arq3 = new FileReader("D:\\Eclipse\\Programs\\TrabalhoPraticoPOO\\src\\POO_Audiencia.csv");
-			FileReader arq4 = new FileReader("D:\\Eclipse\\Programs\\TrabalhoPraticoPOO\\src\\POO_Filmes.csv");
+			FileReader arq = new FileReader("src\\POO_Espectadores.csv");
+			FileReader arq2 = new FileReader("src\\POO_Series.csv");
+			FileReader arq3 = new FileReader("src\\POO_Audiencia.csv");
+			FileReader arq4 = new FileReader("src\\POO_Filmes.csv");
 			BufferedReader lerarq = new BufferedReader(arq);
 			BufferedReader lerarq2 = new BufferedReader(arq2);
 			BufferedReader lerarq3 = new BufferedReader(arq3);
