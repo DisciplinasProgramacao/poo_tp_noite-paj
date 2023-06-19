@@ -60,6 +60,7 @@ public class Main {
 						System.out.println("Avaliacao: " + m.getAvaliacao());
 						System.out.println("Comentarios: ");
 						m.getListaComentarios().forEach((key, value) -> System.out.println(key + " " + value));
+						System.out.println();
 					}
 				else
 					System.out.println("Não foi encontrado nenhuma midia.");
