@@ -15,6 +15,7 @@ O projeto desenvolvido é um streaming de filmes e series com avaliações e com
 
 - Implementação de todos os diagramas ✔
 - Exceptions implementadas para o tratamento de erros ✔
+- Teste para a classe ServicoStreaming ✔
 - Método(s) para carregar os arquivos ✔
 - Interface IComentar para deixar o codigo abstrato✔
 - Criação do aplicativo para testar o codigo ✔
