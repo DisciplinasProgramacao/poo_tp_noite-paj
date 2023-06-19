@@ -4,20 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.stream.Collectors;
-
+/**
+ * Classe Cliente:
+ * Usando: encapsulamento, construtores
+ * Implementando Comparable para ser uma classe comparavel
+ * Implementando IComentar para clientes que podem ou não comentar
+ */
 public class Cliente implements Comparable<Cliente>,IComentar{
-
+	//#region atributos
 	private String nome;
 	private String usuario;
 	private String senha;
 	protected ArrayList<Midia> listaAssistidos = new ArrayList<>();
 	protected ArrayList<Midia> listaAssistir = new ArrayList<>();
+	//#endregion
 
+	//#region construtores
 	public Cliente(String nome, String usuario, String senha) {
 		this.nome = nome;
 		this.usuario = usuario;
 		this.senha = senha;
 	}
+	//#endregion
+
+	//#region métodos de negócio
 
 	/**
 	 * O metodo logar recebe como parametro uma string contendo a senha escrita pelo usuario
@@ -71,7 +81,7 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 		switch (opcao) {
 		case "assistidas":
 			if(busca != null) resultados = listaAssistidos.stream().filter(m -> m.nome.contains(busca)).collect(Collectors.toList());
-			else return new ArrayList<>(listaAssistidos);
+			else return (List<Midia>) listaAssistidos.clone();
 			return resultados;
 			
 		case "assistir":
@@ -80,7 +90,15 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 		}
 		return null;
 	}
-	
+	/**
+	 * O metodo ira verificar se contem a midia pesquisada e se o usuario pode assistir filmes em lançamento, caso não
+	 * irá jogar exceções
+	 *
+	 * @param midia, recebe uma midia para verificar se contem na lista
+	 * @param podeAssistir, recebe esse bollean para verificar se você tem permissão para assistir filmes em lançamento
+	 *
+	 * @return void
+	 */
 	public void verificaAdicao(Midia midia, boolean podeAssistir) throws MidiaJaAdicionadaException, SemPermissaoException {
 		if(listaAssistidos.contains(midia)) {
 			throw new MidiaJaAdicionadaException("A Midia já foi adicionada à lista! Favor inserir outra midia.");
@@ -91,15 +109,16 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 			throw new SemPermissaoException("Você não tem permissão para assistir filmes em lançamento!");
 		}
 	}
-	
+
+
 	@Override
 	public int compareTo(Cliente o) {
 		return this.nome.compareTo(o.nome);
 	}
-	
-	// Getters and Setters
 
-	
+	//#region getters and setters
+
+
 	public String getNome() {
 		return nome;
 	}
