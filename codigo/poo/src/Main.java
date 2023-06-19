@@ -47,6 +47,16 @@ public class Main {
 						System.out.println("Data de Lancamento: " + m.getDataLancamento());
 						System.out.println("Idiomas: " + m.getIdioma().toString());
 						System.out.println("Generos: " + m.getGenero().toString());
+						if(m instanceof Serie) {
+							Serie s = (Serie) m;
+							System.out.println("Quantidade de eps: ");
+							System.out.println(s.getQuantEp());;
+						}
+						else {
+							Filme f  = (Filme) m;
+							System.out.println("Duração: ");
+							System.out.println(f.getDuracao());;
+						}
 						System.out.println("Avaliacao: " + m.getAvaliacao());
 						System.out.println("Comentarios: ");
 						m.getListaComentarios().forEach((key, value) -> System.out.println(key + " " + value));
