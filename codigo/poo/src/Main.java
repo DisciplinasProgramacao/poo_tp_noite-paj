@@ -1,4 +1,7 @@
-
+import entidades.*;
+import excecoes.ClienteInvalidoException;
+import excecoes.MidiaNaoEncontradaException;
+import excecoes.UsuarioSenhaErradosException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
