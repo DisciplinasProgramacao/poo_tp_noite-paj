@@ -11,16 +11,20 @@ import java.util.Random;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
-
+/**
+ * Classe ServicoStreaming:
+ * Usando: encapsulamento, construtores
+ */
 public class ServicoStreaming {
 
+	//#region atributos
 	private SortedSet<Midia> listaMidia = new TreeSet<>();
 	private SortedSet<Cliente> listaCliente = new TreeSet<Cliente>();
 	private Cliente clienteLogado;
 
 	public ServicoStreaming() {
 	}
-
+	//#endregion
 	/**
 	 * Metodo para realizar o login do usuario no servico. Ele permanecerá logado
 	 * até que deslogue. Caso tenha algum erro, será lançado uma Exceção na tela.
@@ -45,9 +49,7 @@ public class ServicoStreaming {
 	 * Metodo usado para cadastrar um novo cliente no sistema e depois salva-lo na
 	 * lista de clientes
 	 * 
-	 * @param nome,    string que carrega o nome do cliente
-	 * @param usuario, string que carrega o usuario escolhido pelo cliente
-	 * @param senha,   string que carrega a senha escolhida pelo cliente
+	 * @param cliente, cliente a ser cadastrado
 	 * @throws ClienteInvalidoException 
 	 */
 	public void cadastrar(Cliente cliente) throws ClienteInvalidoException {
@@ -244,7 +246,14 @@ public class ServicoStreaming {
 		
 		
 	}
-
+	/**
+	 * O metodo adicionar procura uma mídia na lista de mídias com base no nome fornecido e, se encontrada,
+	 * a adiciona ao cliente logado. Caso a mídia não seja encontrada, uma exceção é lançada.
+	 *
+	 * @param opcao,  contendo a opção que o usuario digitou
+	 * @param mi, String contendo a midia que deseja ser adicionada
+	 * @throws MidiaNaoEncontradaException
+	 */
 	public void adicionar(String opcao, String mi) throws MidiaNaoEncontradaException {
 		Midia midia = listaMidia.stream().filter(m -> m.getNome().toLowerCase().equals(mi.toLowerCase())).findFirst().orElse(null);
 		if(midia != null)
@@ -257,12 +266,21 @@ public class ServicoStreaming {
 			}
 		else throw new MidiaNaoEncontradaException("Não foi encontrado nenhum filme ou série com esse nome.");
 	}
-	
+	/**
+	 * O metodo comentar procura uma midia com basse mo nome fornecido pelo parametro busca no metodo buscarGeral
+	 * e adiciona um comentario fornecido pelo usuario à midia encontrada
+	 *
+	 * @param msg,  contendo a opção que o usuario digitou
+	 * @param busca, String contendo a midia que deseja ser adicionada
+	 * @throws MidiaNaoEncontradaException
+	 */
 	public void comentar(String msg, String busca) {
 		Midia midiaAvaliada = buscarGeral(busca, "geral").get(0);
 		clienteLogado.comentar(msg, midiaAvaliada);
 	}
-	
+
+
+	// Getters and Setters
 	public SortedSet<Cliente> getListaCliente(){
 		return listaCliente;
 	}
