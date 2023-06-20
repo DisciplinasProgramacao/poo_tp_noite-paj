@@ -235,11 +235,11 @@ public class ServicoStreaming {
 	public void avaliar(double nota, String busca) throws MidiaNaoEncontradaException {
 		try {
 			Midia midiaAvaliada = buscarGeral(busca, "geral").get(0);
-			Collection<Midia> verificacao = clienteLogado.getListaAvaliados().values();
+			Collection<Midia> verificacao = clienteLogado.getListaMidiasAvaliadas().values();
 			if (nota <= 5 && nota >= 1) {
 				if (!verificacao.contains(midiaAvaliada)) {
 					midiaAvaliada.availiar(nota);
-					clienteLogado.setListaAvaliados(midiaAvaliada);
+					clienteLogado.setListaMidiasAvaliadas(midiaAvaliada);
 				} else {
 					throw new MidiaNaoEncontradaException("Midia já avaliada! Favor inserir outra midia!");
 				}
@@ -288,7 +288,11 @@ public class ServicoStreaming {
 	 */
 	public void comentar(String msg, String busca) {
 		Midia midiaAvaliada = buscarGeral(busca, "geral").get(0);
-		clienteLogado.comentar(msg, midiaAvaliada);
+		try {
+			clienteLogado.comentar(msg, midiaAvaliada);
+		} catch (AvaliacaoInsuficienteException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	// Getters and Setters

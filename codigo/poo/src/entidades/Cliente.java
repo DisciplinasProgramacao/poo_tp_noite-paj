@@ -1,4 +1,5 @@
 package entidades;
+import excecoes.AvaliacaoInsuficienteException;
 import excecoes.MidiaJaAdicionadaException;
 import excecoes.SemPermissaoException;
 
@@ -6,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 /**
  * Classe Cliente:
@@ -20,6 +22,7 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 	private String senha;
 	protected ArrayList<Midia> listaAssistidos = new ArrayList<>();
 	protected ArrayList<Midia> listaAssistir = new ArrayList<>();
+	public SortedMap<LocalDate,Midia> listaMidiasAvaliadas = new TreeMap<>();
 	//#endregion
 
 	//#region construtores
@@ -146,17 +149,17 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 		this.senha = senha;
 	}
 	
-	public void setListaAvaliados(Midia midia) {
+	public void setListaMidiasAvaliadas(Midia midia) {
 		LocalDate data = LocalDate.now();
-		IComentar.listaMidiasAvaliadas.put(data,midia);
+		this.listaMidiasAvaliadas.put(data,midia);
 	}
 	
-	public SortedMap<LocalDate, Midia> getListaAvaliados() {
+	public SortedMap<LocalDate, Midia> getListaMidiasAvaliadas() {
 		return listaMidiasAvaliadas;
 	}
 	
-	public void comentar(String msg, Midia midia) {
-		IComentar.comentar(msg, midia,this.usuario);
+	public void comentar(String msg, Midia midia) throws AvaliacaoInsuficienteException {
+		IComentar.comentar(msg, midia,listaMidiasAvaliadas,this.usuario);
 	}
 	
 	public ArrayList<Midia> getListaAssistidos(){
