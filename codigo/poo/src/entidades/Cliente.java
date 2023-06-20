@@ -22,7 +22,7 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 	private String senha;
 	protected ArrayList<Midia> listaAssistidos = new ArrayList<>();
 	protected ArrayList<Midia> listaAssistir = new ArrayList<>();
-	public SortedMap<LocalDate,Midia> listaMidiasAvaliadas = new TreeMap<>();
+	protected SortedMap<LocalDate,Midia> listaMidiasAvaliadas = new TreeMap<>();
 	//#endregion
 
 	//#region construtores
