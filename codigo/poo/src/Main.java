@@ -19,9 +19,10 @@ public class Main {
 		ent.nextLine();
 		List<Midia> midias2 = servico.buscarGeral(null, "assistidas");
 		if (!midias2.isEmpty()) {
-			midias2.stream()
-					.map(m -> m.toString())
-					.forEach(System.out::println);
+			for (Midia m : midias2) {
+				System.out.println(m.toString());
+				System.out.println();
+			}
 
 			System.out.println("Qual midia assistida deseja Comentar?");
 			String busca = ent.nextLine();
@@ -47,6 +48,7 @@ public class Main {
 		if (midias != null)
 			for (Midia m : midias) {
 				System.out.println(m.toString());
+				System.out.println();
 			}
 
 		else
@@ -57,10 +59,13 @@ public class Main {
 		ent.nextLine();
 		List<Midia> midias1 = servico.buscarGeral(null, "assistidas");
 		if (!midias1.isEmpty()) {
-			midias1.stream()
-					.map(m -> m.toString())
-					.forEach(System.out::println);
+			for (Midia m : midias1) {
+				System.out.println(m.toString());
+				System.out.println();
+			}
 
+
+			System.out.println();
 			System.out.println("Qual midia assistida deseja avaliar?");
 			String busca = ent.nextLine();
 			System.out.println("Qual nota deseja dar?");
@@ -122,6 +127,7 @@ public class Main {
 		Map<Object, List<Midia>> listaMidia;
 		int opcao = 1;
 		while (opcao != 0) {
+			System.out.println();
 			System.out.println("Qual relátorio deseja ver?");
 			System.out.println("1 - Qual cliente assistiu mais midias ");
 			System.out.println("2 - Qual cliente tem mais avaliações");
@@ -129,8 +135,7 @@ public class Main {
 			System.out.println("4 - Melhores 10 midias com maior visualizações");
 			System.out.println("5 - Melhores 10 midias com maior media de avaliação com mais de 100 visualizações");
 			System.out.println("6 - Melhores 10 mídias com mais visualizações separadas por gênero");
-			System.out.println(
-					"7 - Melhores 10 midias com maior media de avaliação com mais de 100 visualizações separadas por gênero");
+			System.out.println("7 - Melhores 10 midias com maior media de avaliação com mais de 100 visualizações separadas por gênero");
 			System.out.println("0 - Sair");
 			opcao = ent.nextInt();
 			switch (opcao) {
@@ -141,12 +146,14 @@ public class Main {
 				maior = null;
 				for (Cliente c : servico.getListaCliente().values()) {
 					quant = c.getListaAssistidos().size();
+					System.out.println(quant);
 					if (quant > maiorquant) {
 						maiorquant = quant;
 						maior = c;
 					}
 				}
-				System.out.println("Cliente com maior quantidade de midias assistidas é: " + maior.getNome()
+				System.out.println(quant);
+				System.out.println("Cliente com maior quantidade de midias assistidas é: " + maior.getUsuario()
 						+ "! \nAssistiu um total de: " + maior.getListaAssistidos().size() + " Midias!");
 				break;
 
@@ -155,14 +162,14 @@ public class Main {
 				quant = 0;
 				maior = null;
 				for (Cliente c : servico.getListaCliente().values()) {
-					quant = c.getListaAvaliados().size();
+					quant = c.getListaMidiasAvaliadas().size();
 					if (quant > maiorquant) {
 						maiorquant = quant;
 						maior = c;
 					}
 				}
-				System.out.println("Cliente com maior quantidade de midias assistidas é: " + maior.getNome()
-						+ "! \nAvaliou um total de: " + maior.getListaAvaliados().size() + " Midias!");
+				System.out.println("Cliente com maior quantidade de midias assistidas é: " + maior.getUsuario()
+						+ "! \nAvaliou um total de: " + maior.getListaMidiasAvaliadas().values().stream().mapToInt(List::size).sum() + " Midias!");
 				break;
 
 			case 3:
@@ -171,7 +178,7 @@ public class Main {
 				maior = null;
 				int quantCliente = 0;
 				for (Cliente c : servico.getListaCliente().values()) {
-					quant = c.getListaAvaliados().size();
+					quant = c.getListaMidiasAvaliadas().size();
 					quantCliente++;
 					if (quant > 15) {
 						maiorquant++;
@@ -187,7 +194,7 @@ public class Main {
 						.sorted(Comparator.comparing(Midia::getQuantidadeDeViwers).reversed()).limit(10).toList();
 				System.out.println("O top 10 filmes mais assistidos são:");
 				for (Midia m : midia) {
-					System.out.println(m.getNome());
+					System.out.println(m.getNome() + " - " + m.getQuantidadeDeViwers() + " Visualizações");
 				}
 				break;
 
@@ -198,7 +205,7 @@ public class Main {
 				if (!midia.isEmpty()) {
 					System.out.println("O top 10 filmes com melhor avaliação são:");
 					for (Midia m : midia) {
-						System.out.println(m.getNome());
+						System.out.println(m.getNome() + " - " + m.getAvaliacao());
 					}
 				} else {
 					System.out.println("Não há midias com mais de 100 visualizações.");
@@ -219,7 +226,7 @@ public class Main {
 				listaMidiaPorGenero.forEach((genero, mi) -> {
 					System.out.println("Gênero: " + genero);
 					System.out.println("Mídias:");
-					mi.forEach(m -> System.out.println(m.getNome()));
+					mi.forEach(m -> System.out.println(m.getNome() + " - " + m.getAvaliacao()));
 					System.out.println();
 				});
 				break;
@@ -239,7 +246,7 @@ public class Main {
 					listaMidiaPorGenero2.forEach((genero, mi) -> {
 						System.out.println("Gênero: " + genero);
 						System.out.println("Mídias:");
-						mi.forEach(m -> System.out.println(m.getNome()));
+						mi.forEach(m -> System.out.println(m.getNome() + " - " + m.getAvaliacao()));
 						System.out.println();
 					});
 				} else {
@@ -321,6 +328,7 @@ public class Main {
 	public static void logado(ServicoStreaming servico, Scanner ent) {
 		int opcao = 1;
 		while (opcao != 0) {
+			System.out.println();
 			System.out.println("1 - Buscar Midia");
 			System.out.println("2 - Avaliar Midia Assistida");
 			System.out.println("3 - Comentar em uma Midia Assistida");
