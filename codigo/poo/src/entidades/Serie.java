@@ -32,7 +32,11 @@ public class Serie extends Midia{
 		super(nome,dataLancamento);
 		this.quantEp = quantEp;
 	}
-
+	
+	/**
+	 * Metodo para imprimir a descricao de midia
+	 * @return String, String contendo a descricao da Midia
+	 */
 	@Override
 	public String toString() {
 		String superString = super.toString();
