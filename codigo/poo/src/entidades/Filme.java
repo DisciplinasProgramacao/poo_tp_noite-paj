@@ -35,6 +35,10 @@ public class Filme extends Midia{
 		this.duracao = duracao;
 	}
 	
+	/**
+	 * Metodo para imprimir a descricao de midia
+	 * @return String, String contendo a descricao da Midia
+	 */
 	@Override
 	public String toString() {
 		String superString = super.toString();
