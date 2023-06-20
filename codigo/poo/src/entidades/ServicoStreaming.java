@@ -194,8 +194,8 @@ public class ServicoStreaming {
 			}
 
 			String linha4 = lerarq4.readLine();
-			while (linha != null) {
-				String[] linhaPartida4 = linha4.split(";");
+			while (linha4 != null) {
+				String[] linhaPartida4 = linha4.split(",");
 
 				DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				LocalDate dataLancamento = LocalDate.parse(linhaPartida4[2], formato);

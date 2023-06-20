@@ -4,6 +4,8 @@ import java.util.Random;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 /**
  * Classe Midia:
@@ -147,6 +149,21 @@ public class Midia implements Comparable<Midia> {
 		return this.nome.compareTo(m.nome);
 	}
 
+	@Override
+	public String toString() {
+		String formattedDate = this.dataLancamento.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+		StringBuilder sb = new StringBuilder("Nome: " + this.nome);
+		sb.append("\nData de Lançamento: " + formattedDate);
+		sb.append("\nIdiomas: " + this.idioma.toString());
+		sb.append("\nGeneros: " + this.genero.toString());
+
+		sb.append("\nAvaliação: " + this.avaliacao);
+		sb.append("\nComentarios: " + this.listaComentarios);
+		getListaComentarios().forEach((key, value) -> System.out.println(key + " " + value));
+
+		return sb.toString();
+	}
+	
 	// Getters and Setters
 
 	public ArrayList<String> getIdioma() {

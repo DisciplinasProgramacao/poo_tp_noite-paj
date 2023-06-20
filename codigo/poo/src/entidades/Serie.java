@@ -33,6 +33,14 @@ public class Serie extends Midia{
 		this.quantEp = quantEp;
 	}
 
+	@Override
+	public String toString() {
+		String superString = super.toString();
+		StringBuilder sb = new StringBuilder(superString);
+		sb.append("\nQuantidade de ep: " + this.quantEp);
+		return sb.toString();
+	}
+	
 	//#region getters and setters
 	
 	public int getQuantEp() {

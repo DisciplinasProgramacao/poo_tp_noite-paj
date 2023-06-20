@@ -34,6 +34,14 @@ public class Filme extends Midia{
 		super(nome, dataLancamento);
 		this.duracao = duracao;
 	}
+	
+	@Override
+	public String toString() {
+		String superString = super.toString();
+		StringBuilder sb = new StringBuilder(superString);
+		sb.append("\nDuração do filme: " + this.duracao);
+		return sb.toString();
+	}
 	//#endregion
 
 	//#region getters and setters
