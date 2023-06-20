@@ -118,7 +118,7 @@ public class Midia implements Comparable<Midia> {
 	 * @param nota, recebe o valor da avaliação
 	 *
 	 */
-	public void availiar(double nota) {
+	public void avaliar(double nota) {
 		notas.add(nota);
 		double x = 0;
 		for (double not : notas) {
@@ -149,10 +149,6 @@ public class Midia implements Comparable<Midia> {
 		return this.nome.compareTo(m.nome);
 	}
 
-	/**
-	 * Metodo para imprimir a descricao de midia
-	 * @return String, String contendo a descricao da Midia
-	 */
 	@Override
 	public String toString() {
 		String formattedDate = this.dataLancamento.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));

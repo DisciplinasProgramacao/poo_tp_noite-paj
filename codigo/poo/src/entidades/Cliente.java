@@ -22,7 +22,7 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 	private String senha;
 	protected ArrayList<Midia> listaAssistidos = new ArrayList<>();
 	protected ArrayList<Midia> listaAssistir = new ArrayList<>();
-	protected SortedMap<LocalDate,Midia> listaMidiasAvaliadas = new TreeMap<>();
+	public SortedMap<LocalDate, List<Midia>> listaMidiasAvaliadas = new TreeMap<>();
 	//#endregion
 
 	//#region construtores
@@ -116,21 +116,20 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 		}
 	}
 
-
-	@Override
-	public int compareTo(Cliente o) {
-		return this.nome.compareTo(o.nome);
-	}
-
 	/**
 	 * Metodo utilizado para fazer um comentário na mídia. Só será realizado o comentário se o cliente tiver avalido 5 midias ou mais no mês anterior
 	 * 
 	 * @param msg, Comentário a ser feito sobre a midia
 	 * @param midia, Midia a ser comentada
 	 * @throws AvaliacaoInsuficienteException
-	 */	
+	 */
 	public void comentar(String msg, Midia midia) throws AvaliacaoInsuficienteException {
 		IComentar.comentar(msg, midia,listaMidiasAvaliadas,this.usuario);
+	}
+
+	@Override
+	public int compareTo(Cliente o) {
+		return this.nome.compareTo(o.nome);
 	}
 
 	//#region getters and setters
@@ -162,10 +161,20 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 	
 	public void setListaMidiasAvaliadas(Midia midia) {
 		LocalDate data = LocalDate.now();
-		this.listaMidiasAvaliadas.put(data,midia);
+		List<Midia> midias = new ArrayList<>();
+		if(this.listaMidiasAvaliadas.containsKey(data)) {
+			midias = listaMidiasAvaliadas.get(data);
+			midias.add(midia);
+			listaMidiasAvaliadas.remove(data);
+			listaMidiasAvaliadas.put(data, midias);
+		}
+		else {
+			midias.add(midia);
+			this.listaMidiasAvaliadas.put(data,midias);
+		}
 	}
 	
-	public SortedMap<LocalDate, Midia> getListaMidiasAvaliadas() {
+	public SortedMap<LocalDate, List<Midia>> getListaMidiasAvaliadas() {
 		return listaMidiasAvaliadas;
 	}
 	
