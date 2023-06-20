@@ -122,6 +122,17 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 		return this.nome.compareTo(o.nome);
 	}
 
+	/**
+	 * Metodo utilizado para fazer um comentário na mídia. Só será realizado o comentário se o cliente tiver avalido 5 midias ou mais no mês anterior
+	 * 
+	 * @param msg, Comentário a ser feito sobre a midia
+	 * @param midia, Midia a ser comentada
+	 * @throws AvaliacaoInsuficienteException
+	 */	
+	public void comentar(String msg, Midia midia) throws AvaliacaoInsuficienteException {
+		IComentar.comentar(msg, midia,listaMidiasAvaliadas,this.usuario);
+	}
+
 	//#region getters and setters
 
 
@@ -156,10 +167,6 @@ public class Cliente implements Comparable<Cliente>,IComentar{
 	
 	public SortedMap<LocalDate, Midia> getListaMidiasAvaliadas() {
 		return listaMidiasAvaliadas;
-	}
-	
-	public void comentar(String msg, Midia midia) throws AvaliacaoInsuficienteException {
-		IComentar.comentar(msg, midia,listaMidiasAvaliadas,this.usuario);
 	}
 	
 	public ArrayList<Midia> getListaAssistidos(){
