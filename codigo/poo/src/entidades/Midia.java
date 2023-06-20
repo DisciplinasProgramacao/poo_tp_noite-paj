@@ -149,6 +149,10 @@ public class Midia implements Comparable<Midia> {
 		return this.nome.compareTo(m.nome);
 	}
 
+	/**
+	 * Metodo para imprimir a descricao de midia
+	 * @return String, String contendo a descricao da Midia
+	 */
 	@Override
 	public String toString() {
 		String formattedDate = this.dataLancamento.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
